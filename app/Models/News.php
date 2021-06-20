@@ -22,12 +22,71 @@ class News extends Model
         return $news;
     }
 
+    public function getLeadNews()
+    {
+        $leadNews = $this->join('categories', 'news.category_id', '=', 'categories.id')
+            ->where('news.position', '!=', NULL)
+            ->select('news.*', 'categories.name as category', 'categories.slug as category_slug')
+            ->orderBy('news.position', 'asc')
+            ->orderBy('news.created_at', 'desc')
+            ->take(5)
+            ->get()
+            ->toArray();
+        return $leadNews;
+    }
+
+    public function getLatestNews()
+    {
+        $latestNews = $this->join('categories', 'news.category_id', '=', 'categories.id')
+            ->select('news.*', 'categories.name as category', 'categories.slug as category_slug')
+            ->orderBy('news.created_at', 'desc')
+            ->take(10)
+            ->get()
+            ->toArray();
+        return $latestNews;
+    }
+
+    public function getRandomEightNews()
+    {
+        $randomEightNews = $this->join('categories', 'news.category_id', '=', 'categories.id')
+            ->inRandomOrder()
+            ->orderBy('news.created_at', 'desc')
+            ->select('news.*', 'categories.name as category', 'categories.slug as category_slug')
+            ->take(8)
+            ->get();
+        return $randomEightNews;
+    }
+
+    public function getTrendingNewsByCategory(Int $category_id)
+    {
+        $trendingNews = $this->join('categories', 'news.category_id', '=', 'categories.id')
+            ->where('news.category_id', $category_id)
+            ->select('news.*', 'categories.name as category', 'categories.slug as category_slug')
+            ->orderBy('news.view', 'desc')
+            ->orderBy('news.created_at', 'desc')
+            ->take(4)
+            ->get();
+        return $trendingNews;
+    }
+
+    public function getNewsBySlug($slug)
+    {
+        $news = $this->join('categories', 'news.category_id', '=', 'categories.id')
+            ->where('news.slug', $slug)
+            ->select('news.*', 'categories.name as category', 'categories.slug as category_slug')
+            ->firstOrFail();
+        return $news;
+    }
+
     public function storeNews(Object $request)
     {
         $check_position = $this->where('position', $request->position)->count();
 
         if ($check_position > 0) {
-            $this->where('position', $request->position)->count()->update('news', array('position' => NULL));
+
+            $news = $this->where('position', $request->position)->first();
+            $news->position = NULL;
+            $news->save();
         }
 
         $image = $request->file('photo');
@@ -68,7 +127,10 @@ class News extends Model
         $check_position = $this->where('position', $request->position)->count();
 
         if ($check_position > 0) {
-            $this->where('position', $request->position)->count()->update('news', array('position' => NULL));
+
+            $news = $this->where('position', $request->position)->first();
+            $news->position = NULL;
+            $news->save();
         }
 
         $image = $request->file('photo');

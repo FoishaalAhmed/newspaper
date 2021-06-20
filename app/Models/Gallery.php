@@ -14,7 +14,6 @@ class Gallery extends Model
     ];
 
     public static $validateRule = [
-        'type' => ['required', 'string', 'max:5'],
         'photo' => ['required_if:type,Photo', 'mimes:jpeg,jpg,png,gif,webp', 'max:10000'],
         'video' => ['required_if:type,Video', 'nullable', 'max:255'],
     ];
@@ -34,7 +33,8 @@ class Gallery extends Model
             $this->photo     = $image_url;
         }
 
-        $this->type  = $request->type;
+        $this->type  = 'Video';
+        $this->title = $request->title;
         $this->video = $request->video;
         $storeGallery = $this->save();
 
@@ -46,7 +46,6 @@ class Gallery extends Model
     public function updateGallery(Object $request, Int $id)
     {
         $gallery = $this::findOrFail($id);
-
         $image = $request->file('photo');
 
         if ($image) {
@@ -62,20 +61,9 @@ class Gallery extends Model
             $gallery->photo  = $image_url;
         }
 
-        $gallery->type  = $request->type;
-
-        if ($request->type == 'Photo') {
-
-            $gallery->video  = NULL;
-        } else {
-
-            if (file_exists($gallery->photo)) unlink($gallery->photo);
-            $gallery->video  = $request->video;
-            $gallery->photo  = NULL;
-        }
-
-
-        $storeGallery = $gallery->save();
+        $gallery->video  = $request->video;
+        $gallery->title  = $request->title;
+        $storeGallery    = $gallery->save();
 
         $storeGallery
             ? session()->flash('message', 'Gallery Updated Successfully!')

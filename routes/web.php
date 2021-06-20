@@ -2,10 +2,13 @@
 
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Frontend\HomeController;
+use App\Http\Controllers\Frontend\NewsController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'index']);
+Route::get('/news/{slug}/category', [NewsController::class, 'news'])->name('category.news');
+Route::get('/news/{slug}', [NewsController::class, 'detail'])->name('news.detail');
 
 
 

@@ -80,8 +80,8 @@
                                 <!-- /.form-group -->
                                 <div class="form-group">
                                     <div class="col-md-12">
-                                        <label>{{ __('Pinterest') }}</label>
-                                        <input type="text" name="pinterest" class="form-control" placeholder="{{ __('Pinterest') }}" autocomplete="off" value="{{ $contact->pinterest }}"> 
+                                        <label>{{ __('Youtube') }}</label>
+                                        <input type="text" name="pinterest" class="form-control" placeholder="{{ __('Youtube') }}" autocomplete="off" value="{{ $contact->pinterest }}"> 
                                     </div>
                                 </div>
 										<!-- /.form-group -->

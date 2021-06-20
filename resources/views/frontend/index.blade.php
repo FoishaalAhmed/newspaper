@@ -4,25 +4,30 @@
 
 <div class="banner-area banner-inner-1 bg-black">
 
+        @php
+            $mainLead = array_slice($leadNews, 0, 1);
+            $restLead = array_slice($leadNews, 1);
+        @endphp
+
         <div class="banner-inner pt-5">
             <div class="container">
                 <div class="row">
                     <div class="col-lg-6">
                         <div class="thumb after-left-top">
-                            <img src="{{ asset('public/frontend/img/banner/2.png') }}" alt="img">
+                            <img src="{{ asset($mainLead[0]['photo']) }}" alt="img">
                         </div>
                     </div>
                     <div class="col-lg-6 align-self-center">
                         <div class="banner-details mt-4 mt-lg-0">
                             <div class="post-meta-single">
                                 <ul>
-                                    <li><a class="tag-base tag-blue" href="cat-tech.html">Tech</a></li>
-                                    <li class="date"><i class="fa fa-clock-o"></i>08.22.2020</li>
+                                    <li><a class="tag-base tag-blue" href="{{ route('category.news', $mainLead[0]['category_slug']) }}">{{ $mainLead[0]['category'] }}</a></li>
+                                    <li class="date"><i class="fa fa-clock-o"></i>{{ date('d.m.Y', strtotime($mainLead[0]['date'])) }}</li>
                                 </ul>
                             </div>
-                            <h2>ReZoom outage left some people locked out.</h2>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </p>
-                            <a class="btn btn-blue" href="blog-details.html">Read More</a>
+                            <h2>{{ $mainLead[0]['title'] }}</h2>
+                            <p>{!! Str::limit($mainLead[0]['content'], 250) !!} </p>
+                            <a class="btn btn-blue" href="{{ route('news.detail', $mainLead[0]['slug']) }}">Read More</a>
                         </div>
                     </div>
                 </div>
@@ -31,74 +36,24 @@
 
         <div class="container">
             <div class="row">
+                @foreach ($restLead as $lead)
                 <div class="col-lg-3 col-sm-6">
                     <div class="single-post-wrap style-white">
                         <div class="thumb">
-                            <img src="{{ asset('public/frontend/img/post/1.png') }}" alt="img">
-                            <a class="tag-base tag-blue" href="cat-tech.html">Tech</a>
+                            <img src="{{ asset($lead['photo']) }}" alt="img" style="width: 265px; height:175px;">
+                            <a class="tag-base @if($loop->odd) {{ 'tag-blue' }} @else {{ 'tag-orange' }} @endif" href="{{ route('category.news', $lead['category_slug']) }}">{{ $lead['category'] }}</a>
                         </div>
                         <div class="details">
-                            <h6 class="title"><a href="blog-details.html">The FAA will test drone detecting technologies
-                                    in airports this year</a></h6>
+                            <h6 class="title"><a href="{{  route('news.detail', $lead['slug'])  }}">{{ $lead['title'] }}</a></h6>
                             <div class="post-meta-single mt-3">
                                 <ul>
-                                    <li><i class="fa fa-clock-o"></i>08.22.2020</li>
+                                    <li><i class="fa fa-clock-o"></i>{{ date('d.m.Y', strtotime($lead['date'])) }}</li>
                                 </ul>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-3 col-sm-6">
-                    <div class="single-post-wrap style-white">
-                        <div class="thumb">
-                            <img src="{{ asset('public/frontend/img/post/2.png') }}" alt="img">
-                            <a class="tag-base tag-orange" href="cat-tech.html">Food</a>
-                        </div>
-                        <div class="details">
-                            <h6 class="title"><a href="blog-details.html">Rocket Lab will resume launches no sooner than
-                                    August 27th</a></h6>
-                            <div class="post-meta-single mt-3">
-                                <ul>
-                                    <li><i class="fa fa-clock-o"></i>08.22.2020</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-sm-6">
-                    <div class="single-post-wrap style-white">
-                        <div class="thumb">
-                            <img src="{{ asset('public/frontend/img/post/3.png') }}" alt="img">
-                            <a class="tag-base tag-blue" href="cat-tech.html">Tech</a>
-                        </div>
-                        <div class="details">
-                            <h6 class="title"><a href="blog-details.html">Google Drive flaw may attackers fool you into
-                                    install malware</a></h6>
-                            <div class="post-meta-single mt-3">
-                                <ul>
-                                    <li><i class="fa fa-clock-o"></i>08.22.2020</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-sm-6">
-                    <div class="single-post-wrap style-white">
-                        <div class="thumb">
-                            <img src="{{ asset('public/frontend/img/post/4.png') }}" alt="img">
-                            <a class="tag-base tag-orange" href="cat-tech.html">Food</a>
-                        </div>
-                        <div class="details">
-                            <h6 class="title"><a href="blog-details.html">TikTok will sue the US over threatened ban</a>
-                            </h6>
-                            <div class="post-meta-single mt-3">
-                                <ul>
-                                    <li><i class="fa fa-clock-o"></i>08.22.2020</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                @endforeach
             </div>
         </div>
     </div>
@@ -111,80 +66,47 @@
                         <h6 class="title">Trending News</h6>
                     </div>
                     <div class="post-slider owl-carousel">
+                        @php
+                            $firstThreeLead = array_slice($trendingNews, 0, 3);
+                            $restThreeLead = array_slice($trendingNews, 3, 3);
+                        @endphp
                         <div class="item">
                             <div class="trending-post">
+                                @foreach ($firstThreeLead as $item)
+                                    
                                 <div class="single-post-wrap style-overlay">
                                     <div class="thumb">
-                                        <img src="{{ asset('public/frontend/img/post/5.png') }}" alt="img">
+                                        <img src="{{ asset($item['photo']) }}" alt="img" style="width: 265px; height: 120px;">
                                     </div>
                                     <div class="details">
                                         <div class="post-meta-single">
-                                            <p><i class="fa fa-clock-o"></i>December 26, 2018</p>
+                                            <p><i class="fa fa-clock-o"></i>{{ date('d M Y', strtotime($item['date'])) }}</p>
                                         </div>
-                                        <h6 class="title"><a href="blog-details.html">The FAA will test drone </a></h6>
+                                        <h6 class="title"><a href="{{ route('news.detail', $item['slug']) }}">{{ $item['title'] }}</a></h6>
                                     </div>
                                 </div>
-                                <div class="single-post-wrap style-overlay">
-                                    <div class="thumb">
-                                        <img src="{{ asset('public/frontend/img/post/6.png') }}" alt="img">
-                                    </div>
-                                    <div class="details">
-                                        <div class="post-meta-single">
-                                            <p><i class="fa fa-clock-o"></i>December 26, 2018</p>
-                                        </div>
-                                        <h6 class="title"><a href="blog-details.html">Flight schedule and quarantine</a>
-                                        </h6>
-                                    </div>
-                                </div>
-                                <div class="single-post-wrap style-overlay">
-                                    <div class="thumb">
-                                        <img src="{{ asset('public/frontend/img/post/7.png') }}" alt="img">
-                                    </div>
-                                    <div class="details">
-                                        <div class="post-meta-single">
-                                            <p><i class="fa fa-clock-o"></i>December 26, 2018</p>
-                                        </div>
-                                        <h6 class="title"><a href="blog-details.html">Indore bags cleanest city</a></h6>
-                                    </div>
-                                </div>
+
+                                @endforeach
                             </div>
                         </div>
                         <div class="item">
                             <div class="trending-post">
+
+                                @foreach ($restThreeLead as $item)
+                                    
                                 <div class="single-post-wrap style-overlay">
                                     <div class="thumb">
-                                        <img src="{{ asset('public/frontend/img/post/5.png') }}" alt="img">
+                                        <img src="{{ asset($item['photo']) }}" alt="img" style="width: 265px; height: 120px;">
                                     </div>
                                     <div class="details">
                                         <div class="post-meta-single">
-                                            <p><i class="fa fa-clock-o"></i>December 26, 2018</p>
+                                            <p><i class="fa fa-clock-o"></i>{{ date('d M Y', strtotime($item['date'])) }}</p>
                                         </div>
-                                        <h6 class="title"><a href="blog-details.html">The FAA will test drone </a></h6>
+                                        <h6 class="title"><a href="{{ route('news.detail', $item['slug']) }}">{{ $item['title'] }}</a></h6>
                                     </div>
                                 </div>
-                                <div class="single-post-wrap style-overlay">
-                                    <div class="thumb">
-                                        <img src="{{ asset('public/frontend/img/post/6.png') }}" alt="img">
-                                    </div>
-                                    <div class="details">
-                                        <div class="post-meta-single">
-                                            <p><i class="fa fa-clock-o"></i>December 26, 2018</p>
-                                        </div>
-                                        <h6 class="title"><a href="blog-details.html">Flight schedule and quarantine</a>
-                                        </h6>
-                                    </div>
-                                </div>
-                                <div class="single-post-wrap style-overlay">
-                                    <div class="thumb">
-                                        <img src="{{ asset('public/frontend/img/post/7.png') }}" alt="img">
-                                    </div>
-                                    <div class="details">
-                                        <div class="post-meta-single">
-                                            <p><i class="fa fa-clock-o"></i>December 26, 2018</p>
-                                        </div>
-                                        <h6 class="title"><a href="blog-details.html">Indore bags cleanest city</a></h6>
-                                    </div>
-                                </div>
+
+                                @endforeach
                             </div>
                         </div>
                     </div>
@@ -194,189 +116,51 @@
                         <h6 class="title">Latest News</h6>
                     </div>
                     <div class="post-slider owl-carousel">
+                        @php
+                            $firstFiveLatest = array_slice($latestNews, 0, 5);
+                            $secondFiveLatest = array_slice($latestNews, 5);
+                        @endphp
                         <div class="item">
-                            <div class="single-post-list-wrap">
-                                <div class="media">
-                                    <div class="media-left">
-                                        <img src="{{ asset('public/frontend/img/post/list/1.png') }}" alt="img">
-                                    </div>
-                                    <div class="media-body">
-                                        <div class="details">
-                                            <div class="post-meta-single">
-                                                <ul>
-                                                    <li><i class="fa fa-clock-o"></i>08.22.2020</li>
-                                                </ul>
+                            @foreach ($firstFiveLatest as $item)
+                                <div class="single-post-list-wrap">
+                                    <div class="media">
+                                        <div class="media-left">
+                                            <img src="{{ asset($item['photo']) }}" alt="img">
+                                        </div>
+                                        <div class="media-body">
+                                            <div class="details">
+                                                <div class="post-meta-single">
+                                                    <ul>
+                                                        <li><i class="fa fa-clock-o"></i>{{ date('d.m.Y', strtotime($item['date'])) }}</li>
+                                                    </ul>
+                                                </div>
+                                                <h6 class="title"><a href="{{  route('news.detail', $item['slug'])  }}">{{ $item['title'] }}</a></h6>
                                             </div>
-                                            <h6 class="title"><a href="blog-details.html">Himachal Pradesh rules in
-                                                    order to allow tourists </a></h6>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="single-post-list-wrap">
-                                <div class="media">
-                                    <div class="media-left">
-                                        <img src="{{ asset('public/frontend/img/post/list/2.png') }}" alt="img">
-                                    </div>
-                                    <div class="media-body">
-                                        <div class="details">
-                                            <div class="post-meta-single">
-                                                <ul>
-                                                    <li><i class="fa fa-clock-o"></i>08.22.2020</li>
-                                                </ul>
-                                            </div>
-                                            <h6 class="title"><a href="blog-details.html">Online registration, booking
-                                                    for Vaishno Devi </a></h6>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="single-post-list-wrap">
-                                <div class="media">
-                                    <div class="media-left">
-                                        <img src="{{ asset('public/frontend/img/post/list/3.png') }}" alt="img">
-                                    </div>
-                                    <div class="media-body">
-                                        <div class="details">
-                                            <div class="post-meta-single">
-                                                <ul>
-                                                    <li><i class="fa fa-clock-o"></i>08.22.2020</li>
-                                                </ul>
-                                            </div>
-                                            <h6 class="title"><a href="blog-details.html">Detecting technologies in
-                                                    airports this year</a></h6>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="single-post-list-wrap">
-                                <div class="media">
-                                    <div class="media-left">
-                                        <img src="{{ asset('public/frontend/img/post/list/4.png') }}" alt="img">
-                                    </div>
-                                    <div class="media-body">
-                                        <div class="details">
-                                            <div class="post-meta-single">
-                                                <ul>
-                                                    <li><i class="fa fa-clock-o"></i>08.22.2020</li>
-                                                </ul>
-                                            </div>
-                                            <h6 class="title"><a href="blog-details.html">The FAA will drone detect-ing
-                                                    in airports this year</a></h6>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="single-post-list-wrap">
-                                <div class="media">
-                                    <div class="media-left">
-                                        <img src="{{ asset('public/frontend/img/post/list/5.png') }}" alt="img">
-                                    </div>
-                                    <div class="media-body">
-                                        <div class="details">
-                                            <div class="post-meta-single">
-                                                <ul>
-                                                    <li><i class="fa fa-clock-o"></i>08.22.2020</li>
-                                                </ul>
-                                            </div>
-                                            <h6 class="title"><a href="blog-details.html">Thailand makes it mand-atory
-                                                    for tourists to stay</a></h6>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            @endforeach
                         </div>
                         <div class="item">
-                            <div class="single-post-list-wrap">
-                                <div class="media">
-                                    <div class="media-left">
-                                        <img src="{{ asset('public/frontend/img/post/list/1.png') }}" alt="img">
-                                    </div>
-                                    <div class="media-body">
-                                        <div class="details">
-                                            <div class="post-meta-single">
-                                                <ul>
-                                                    <li><i class="fa fa-clock-o"></i>08.22.2020</li>
-                                                </ul>
+                            @foreach ($secondFiveLatest as $item)
+                                <div class="single-post-list-wrap">
+                                    <div class="media">
+                                        <div class="media-left">
+                                            <img src="{{ asset($item['photo']) }}" alt="img">
+                                        </div>
+                                        <div class="media-body">
+                                            <div class="details">
+                                                <div class="post-meta-single">
+                                                    <ul>
+                                                        <li><i class="fa fa-clock-o"></i>{{ date('d.m.Y', strtotime($item['date'])) }}</li>
+                                                    </ul>
+                                                </div>
+                                                <h6 class="title"><a href="{{  route('news.detail', $item['slug'])  }}">{{ $item['title'] }}</a></h6>
                                             </div>
-                                            <h6 class="title"><a href="blog-details.html">Himachal Pradesh rules in
-                                                    order to allow tourists </a></h6>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="single-post-list-wrap">
-                                <div class="media">
-                                    <div class="media-left">
-                                        <img src="{{ asset('public/frontend/img/post/list/2.png') }}" alt="img">
-                                    </div>
-                                    <div class="media-body">
-                                        <div class="details">
-                                            <div class="post-meta-single">
-                                                <ul>
-                                                    <li><i class="fa fa-clock-o"></i>08.22.2020</li>
-                                                </ul>
-                                            </div>
-                                            <h6 class="title"><a href="blog-details.html">Online registration, booking
-                                                    for Vaishno Devi </a></h6>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="single-post-list-wrap">
-                                <div class="media">
-                                    <div class="media-left">
-                                        <img src="{{ asset('public/frontend/img/post/list/3.png') }}" alt="img">
-                                    </div>
-                                    <div class="media-body">
-                                        <div class="details">
-                                            <div class="post-meta-single">
-                                                <ul>
-                                                    <li><i class="fa fa-clock-o"></i>08.22.2020</li>
-                                                </ul>
-                                            </div>
-                                            <h6 class="title"><a href="blog-details.html">Detecting technologies in
-                                                    airports this year</a></h6>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="single-post-list-wrap">
-                                <div class="media">
-                                    <div class="media-left">
-                                        <img src="{{ asset('public/frontend/img/post/list/4.png') }}" alt="img">
-                                    </div>
-                                    <div class="media-body">
-                                        <div class="details">
-                                            <div class="post-meta-single">
-                                                <ul>
-                                                    <li><i class="fa fa-clock-o"></i>08.22.2020</li>
-                                                </ul>
-                                            </div>
-                                            <h6 class="title"><a href="blog-details.html">The FAA will drone detect-ing
-                                                    in airports this year</a></h6>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="single-post-list-wrap">
-                                <div class="media">
-                                    <div class="media-left">
-                                        <img src="{{ asset('public/frontend/img/post/list/5.png') }}" alt="img">
-                                    </div>
-                                    <div class="media-body">
-                                        <div class="details">
-                                            <div class="post-meta-single">
-                                                <ul>
-                                                    <li><i class="fa fa-clock-o"></i>08.22.2020</li>
-                                                </ul>
-                                            </div>
-                                            <h6 class="title"><a href="blog-details.html">Thailand makes it mand-atory
-                                                    for tourists to stay</a></h6>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            @endforeach
                         </div>
                     </div>
                 </div>
@@ -459,258 +243,81 @@
     <div class="bg-sky pd-top-80 pd-bottom-50">
         <div class="container">
             <div class="row">
-                <div class="col-lg-3 col-sm-6">
-                    <div class="single-post-wrap style-overlay-bg">
-                        <div class="thumb">
-                            <img src="{{ asset('public/frontend/img/post/9.png') }}" alt="img">
-                        </div>
-                        <div class="details">
-                            <div class="post-meta-single mb-3">
-                                <ul>
-                                    <li><a class="tag-base tag-blue" href="cat-fashion.html">fashion</a></li>
-                                    <li>
-                                        <p><i class="fa fa-clock-o"></i>08.22.2020</p>
-                                    </li>
-                                </ul>
+                <div class="col-lg-9 col-sm-9">
+                    <div class="row">
+                        @foreach ($bangladeshNews as $bangladesh)
+                        <div class="col-lg-4 col-sm-12">
+                            <div class="single-post-wrap">
+                                <div class="thumb">
+                                    <img src="{{ asset($bangladesh->photo) }}" alt="img" style="width: 265px; height:175px;">
+                                    <p class="btn-date"><i class="fa fa-clock-o"></i>{{ date('d.m.Y', strtotime($bangladesh->date)) }}</p>
+                                </div>
+                                <div class="details">
+                                    <h6 class="title"><a href="{{  route('news.detail', $bangladesh->slug)  }}">{{ $bangladesh->title }}</a></h6>
+                                </div>
                             </div>
-                            <h6 class="title"><a href="blog-details.html">A Comparison of the Sony FE 85mm f/1.4 GM and
-                                    Sigma</a></h6>
                         </div>
+                        @endforeach
                     </div>
+                    
+                    
                 </div>
-                <div class="col-lg-3 col-sm-6">
-                    <div class="single-post-wrap">
-                        <div class="thumb">
-                            <img src="{{ asset('public/frontend/img/post/10.png') }}" alt="img">
-                            <p class="btn-date"><i class="fa fa-clock-o"></i>08.22.2020</p>
-                        </div>
-                        <div class="details">
-                            <h6 class="title"><a href="blog-details.html">Rocket Lab will resume launches no sooner
-                                    than</a></h6>
-                        </div>
-                    </div>
-                    <div class="single-post-wrap">
-                        <div class="thumb">
-                            <img src="{{ asset('public/frontend/img/post/11.png') }}" alt="img">
-                            <p class="btn-date"><i class="fa fa-clock-o"></i>08.22.2020</p>
-                        </div>
-                        <div class="details">
-                            <h6 class="title"><a href="blog-details.html">P2P Exchanges in Africa Pivot: Nigeria and
-                                    Kenya the</a></h6>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-sm-6">
-                    <div class="single-post-wrap">
-                        <div class="thumb">
-                            <img src="{{ asset('public/frontend/img/post/12.png') }}" alt="img">
-                            <p class="btn-date"><i class="fa fa-clock-o"></i>08.22.2020</p>
-                        </div>
-                        <div class="details">
-                            <h6 class="title"><a href="blog-details.html">Bitmex Restricts Ontario Residents as Mandated
-                                    by</a></h6>
-                        </div>
-                    </div>
-                    <div class="single-post-wrap">
-                        <div class="thumb">
-                            <img src="{{ asset('public/frontend/img/post/13.png') }}" alt="img">
-                            <p class="btn-date"><i class="fa fa-clock-o"></i>08.22.2020</p>
-                        </div>
-                        <div class="details">
-                            <h6 class="title"><a href="blog-details.html">The Bitcoin Network Now 7 Plants Worth of
-                                    Power</a></h6>
-                        </div>
-                    </div>
-                </div>
+                
                 <div class="col-lg-3 col-sm-6">
                     <div class="trending-post style-box">
                         <div class="section-title">
                             <h6 class="title">Trending News</h6>
                         </div>
                         <div class="post-slider owl-carousel">
+                            @php
+                                $firstFiveTrending = array_slice($trendingNews, 0, 5);
+                                $restFiveTrending = array_slice($trendingNews, 5);
+                            @endphp
                             <div class="item">
+                                @foreach ($firstFiveTrending as $item)
+                                
                                 <div class="single-post-list-wrap">
                                     <div class="media">
                                         <div class="media-left">
-                                            <img src="{{ asset('public/frontend/img/post/list/1.png') }}" alt="img">
+                                            <img src="{{ asset($item['photo']) }}" alt="img">
                                         </div>
                                         <div class="media-body">
                                             <div class="details">
                                                 <div class="post-meta-single">
                                                     <ul>
-                                                        <li><i class="fa fa-clock-o"></i>08.22.2020</li>
+                                                        <li><i class="fa fa-clock-o"></i>{{ date('d.m.Y', strtotime($item['date'])) }}</li>
                                                     </ul>
                                                 </div>
-                                                <h6 class="title"><a href="blog-details.html">Important to rate more
-                                                        liquidity</a></h6>
+                                                <h6 class="title"><a href="{{  route('news.detail', $item['slug'])  }}">{{ $item['title'] }}</a></h6>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="single-post-list-wrap">
-                                    <div class="media">
-                                        <div class="media-left">
-                                            <img src="{{ asset('public/frontend/img/post/list/2.png') }}" alt="img">
-                                        </div>
-                                        <div class="media-body">
-                                            <div class="details">
-                                                <div class="post-meta-single">
-                                                    <ul>
-                                                        <li><i class="fa fa-clock-o"></i>08.22.2020</li>
-                                                    </ul>
-                                                </div>
-                                                <h6 class="title"><a href="blog-details.html">Sounds like John got the
-                                                        Josh</a></h6>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="single-post-list-wrap">
-                                    <div class="media">
-                                        <div class="media-left">
-                                            <img src="{{ asset('public/frontend/img/post/list/3.png') }}" alt="img">
-                                        </div>
-                                        <div class="media-body">
-                                            <div class="details">
-                                                <div class="post-meta-single">
-                                                    <ul>
-                                                        <li><i class="fa fa-clock-o"></i>08.22.2020</li>
-                                                    </ul>
-                                                </div>
-                                                <h6 class="title"><a href="blog-details.html">Grayscale's and Bitcoin
-                                                        Trusts</a></h6>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="single-post-list-wrap">
-                                    <div class="media">
-                                        <div class="media-left">
-                                            <img src="{{ asset('public/frontend/img/post/list/4.png') }}" alt="img">
-                                        </div>
-                                        <div class="media-body">
-                                            <div class="details">
-                                                <div class="post-meta-single">
-                                                    <ul>
-                                                        <li><i class="fa fa-clock-o"></i>08.22.2020</li>
-                                                    </ul>
-                                                </div>
-                                                <h6 class="title"><a href="blog-details.html">Sounds like John got the
-                                                        Josh</a></h6>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="single-post-list-wrap mb-0">
-                                    <div class="media">
-                                        <div class="media-left">
-                                            <img src="{{ asset('public/frontend/img/post/list/5.png') }}" alt="img">
-                                        </div>
-                                        <div class="media-body">
-                                            <div class="details">
-                                                <div class="post-meta-single">
-                                                    <ul>
-                                                        <li><i class="fa fa-clock-o"></i>08.22.2020</li>
-                                                    </ul>
-                                                </div>
-                                                <h6 class="title"><a href="blog-details.html">Grayscale's and Bitcoin
-                                                        Trusts</a></h6>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+
+                                @endforeach
                             </div>
                             <div class="item">
+                                @foreach ($restFiveTrending as $item)
+                                
                                 <div class="single-post-list-wrap">
                                     <div class="media">
                                         <div class="media-left">
-                                            <img src="{{ asset('public/frontend/img/post/list/1.png') }}" alt="img">
+                                            <img src="{{ asset($item['photo']) }}" alt="img">
                                         </div>
                                         <div class="media-body">
                                             <div class="details">
                                                 <div class="post-meta-single">
                                                     <ul>
-                                                        <li><i class="fa fa-clock-o"></i>08.22.2020</li>
+                                                        <li><i class="fa fa-clock-o"></i>{{ date('d.m.Y', strtotime($item['date'])) }}</li>
                                                     </ul>
                                                 </div>
-                                                <h6 class="title"><a href="blog-details.html">Important to rate more
-                                                        liquidity</a></h6>
+                                                <h6 class="title"><a href="{{  route('news.detail', $item['slug'])  }}">{{ $item['title'] }}</a></h6>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="single-post-list-wrap">
-                                    <div class="media">
-                                        <div class="media-left">
-                                            <img src="{{ asset('public/frontend/img/post/list/2.png') }}" alt="img">
-                                        </div>
-                                        <div class="media-body">
-                                            <div class="details">
-                                                <div class="post-meta-single">
-                                                    <ul>
-                                                        <li><i class="fa fa-clock-o"></i>08.22.2020</li>
-                                                    </ul>
-                                                </div>
-                                                <h6 class="title"><a href="blog-details.html">Sounds like John got the
-                                                        Josh</a></h6>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="single-post-list-wrap">
-                                    <div class="media">
-                                        <div class="media-left">
-                                            <img src="{{ asset('public/frontend/img/post/list/3.png') }}" alt="img">
-                                        </div>
-                                        <div class="media-body">
-                                            <div class="details">
-                                                <div class="post-meta-single">
-                                                    <ul>
-                                                        <li><i class="fa fa-clock-o"></i>08.22.2020</li>
-                                                    </ul>
-                                                </div>
-                                                <h6 class="title"><a href="blog-details.html">Grayscale's and Bitcoin
-                                                        Trusts</a></h6>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="single-post-list-wrap">
-                                    <div class="media">
-                                        <div class="media-left">
-                                            <img src="{{ asset('public/frontend/img/post/list/4.png') }}" alt="img">
-                                        </div>
-                                        <div class="media-body">
-                                            <div class="details">
-                                                <div class="post-meta-single">
-                                                    <ul>
-                                                        <li><i class="fa fa-clock-o"></i>08.22.2020</li>
-                                                    </ul>
-                                                </div>
-                                                <h6 class="title"><a href="blog-details.html">Sounds like John got the
-                                                        Josh</a></h6>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="single-post-list-wrap mb-0">
-                                    <div class="media">
-                                        <div class="media-left">
-                                            <img src="{{ asset('public/frontend/img/post/list/5.png') }}" alt="img">
-                                        </div>
-                                        <div class="media-body">
-                                            <div class="details">
-                                                <div class="post-meta-single">
-                                                    <ul>
-                                                        <li><i class="fa fa-clock-o"></i>08.22.2020</li>
-                                                    </ul>
-                                                </div>
-                                                <h6 class="title"><a href="blog-details.html">Grayscale's and Bitcoin
-                                                        Trusts</a></h6>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+
+                                @endforeach
                             </div>
                         </div>
                     </div>
@@ -722,118 +329,25 @@
     <div class="pd-top-80 pd-bottom-50">
         <div class="container">
             <div class="row">
+                @foreach ($randomEightNews as $item)
+                
                 <div class="col-lg-3 col-sm-6">
                     <div class="single-post-wrap style-overlay">
                         <div class="thumb">
-                            <img src="{{ asset('public/frontend/img/post/15.png') }}" alt="img">
-                            <a class="tag-base tag-purple" href="cat-tech.html">Tech</a>
+                            <img src="{{ asset($item->photo) }}" alt="img" style="width: 265px; height:175px;">
+                            <a class="tag-base @if($loop->odd) {{ 'tag-blue' }} @else {{ 'tag-purple' }} @endif" href="{{ route('category.news', $item->category_slug) }}">{{ $item->category }}</a>
                         </div>
                         <div class="details">
                             <div class="post-meta-single">
-                                <p><i class="fa fa-clock-o"></i>08.22.2020</p>
+                                <p><i class="fa fa-clock-o"></i>{{ date('d.m.Y', strtotime($item->date)) }}</p>
                             </div>
-                            <h6 class="title"><a href="blog-details.html">Why Are the Offspring of Older </a></h6>
+                            <h6 class="title"><a href="{{  route('news.detail', $item->slug)  }}">{{ $item->title }}</a></h6>
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-3 col-sm-6">
-                    <div class="single-post-wrap style-overlay">
-                        <div class="thumb">
-                            <img src="{{ asset('public/frontend/img/post/16.png') }}" alt="img">
-                            <a class="tag-base tag-green" href="cat-tech.html">Tech</a>
-                        </div>
-                        <div class="details">
-                            <div class="post-meta-single">
-                                <p><i class="fa fa-clock-o"></i>08.22.2020</p>
-                            </div>
-                            <h6 class="title"><a href="blog-details.html">People Who Eat a Late Dinner May</a></h6>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-sm-6">
-                    <div class="single-post-wrap style-overlay">
-                        <div class="thumb">
-                            <img src="{{ asset('public/frontend/img/post/17.png') }}" alt="img">
-                            <a class="tag-base tag-red" href="cat-tech.html">Tech</a>
-                        </div>
-                        <div class="details">
-                            <div class="post-meta-single">
-                                <p><i class="fa fa-clock-o"></i>08.22.2020</p>
-                            </div>
-                            <h6 class="title"><a href="blog-details.html">Kids eat more calories in </a></h6>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-sm-6">
-                    <div class="single-post-wrap style-overlay">
-                        <div class="thumb">
-                            <img src="{{ asset('public/frontend/img/post/18.png') }}" alt="img">
-                            <a class="tag-base tag-purple" href="cat-tech.html">Tech</a>
-                        </div>
-                        <div class="details">
-                            <div class="post-meta-single">
-                                <p><i class="fa fa-clock-o"></i>08.22.2020</p>
-                            </div>
-                            <h6 class="title"><a href="blog-details.html">The FAA will test drone </a></h6>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-sm-6">
-                    <div class="single-post-wrap style-overlay">
-                        <div class="thumb">
-                            <img src="{{ asset('public/frontend/img/post/19.png') }}" alt="img">
-                            <a class="tag-base tag-red" href="cat-tech.html">Tech</a>
-                        </div>
-                        <div class="details">
-                            <div class="post-meta-single">
-                                <p><i class="fa fa-clock-o"></i>08.22.2020</p>
-                            </div>
-                            <h6 class="title"><a href="blog-details.html">Lifting Weights Makes Your Nervous</a></h6>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-sm-6">
-                    <div class="single-post-wrap style-overlay">
-                        <div class="thumb">
-                            <img src="{{ asset('public/frontend/img/post/20.png') }}" alt="img">
-                            <a class="tag-base tag-blue" href="cat-tech.html">Tech</a>
-                        </div>
-                        <div class="details">
-                            <div class="post-meta-single">
-                                <p><i class="fa fa-clock-o"></i>08.22.2020</p>
-                            </div>
-                            <h6 class="title"><a href="blog-details.html">New, Remote Weight-Loss Method </a></h6>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-sm-6">
-                    <div class="single-post-wrap style-overlay">
-                        <div class="thumb">
-                            <img src="{{ asset('public/frontend/img/post/21.png') }}" alt="img">
-                            <a class="tag-base tag-light-green" href="cat-tech.html">Tech</a>
-                        </div>
-                        <div class="details">
-                            <div class="post-meta-single">
-                                <p><i class="fa fa-clock-o"></i>08.22.2020</p>
-                            </div>
-                            <h6 class="title"><a href="blog-details.html">Social Connection Boosts Fitness App </a></h6>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-sm-6">
-                    <div class="single-post-wrap style-overlay">
-                        <div class="thumb">
-                            <img src="{{ asset('public/frontend/img/post/22.png') }}" alt="img">
-                            <a class="tag-base tag-blue" href="cat-tech.html">Tech</a>
-                        </div>
-                        <div class="details">
-                            <div class="post-meta-single">
-                                <p><i class="fa fa-clock-o"></i>08.22.2020</p>
-                            </div>
-                            <h6 class="title"><a href="blog-details.html">Internet For Things - New results </a></h6>
-                        </div>
-                    </div>
-                </div>
+
+                @endforeach
+                
             </div>
         </div>
     </div>
@@ -1039,12 +553,14 @@
         </div>
     </div>
 
+    @if ($middleAd != null)
+
     <div class="add-area bg-after-sky mg-top--100">
         <div class="container">
-            <a href="#"><img src="{{ asset('public/frontend/img/add/2.png') }}" alt="img"></a>
+            <a href="{{ $middleAd->link }}"><img src="{{ asset($middleAd->photo) }}" alt="img"></a>
         </div>
     </div>
-
+    @endif
     <div class="tranding-area pd-top-75 pd-bottom-50">
         <div class="container">
             <div class="section-title">
@@ -1055,462 +571,55 @@
                     <div class="col-md-9">
                         <div class="nxp-tab-inner nxp-tab-post text-md-right">
                             <ul class="nav nav-tabs" id="enx1" role="tablist">
+                                @foreach ($category as $catKey1 => $item)
+                                    
                                 <li class="nav-item" role="presentation">
-                                    <a class="nav-link active" id="enx1-tab-1" data-toggle="pill" href="#enx1-tabs-1"
+                                    <a class="nav-link @if($catKey1 == 0) {{ 'active' }} @endif" id="enx1-tab-<?php echo $catKey1; ?>" data-toggle="pill" href="#enx1-tabs-<?php echo $catKey1; ?>"
                                         role="tab" aria-selected="true">
-                                        Entertainment
+                                        {{ $item->name }}
                                     </a>
                                 </li>
-                                <li class="nav-item" role="presentation">
-                                    <a class="nav-link" id="enx1-tab-2" data-toggle="pill" href="#enx1-tabs-2"
-                                        role="tab" aria-selected="false">
-                                        Politics
-                                    </a>
-                                </li>
-                                <li class="nav-item" role="presentation">
-                                    <a class="nav-link" id="enx1-tab-3" data-toggle="pill" href="#enx1-tabs-3"
-                                        role="tab" aria-selected="false">
-                                        Fashion
-                                    </a>
-                                </li>
-                                <li class="nav-item" role="presentation">
-                                    <a class="nav-link" id="enx1-tab-4" data-toggle="pill" href="#enx1-tabs-4"
-                                        role="tab" aria-selected="false">
-                                        Tech
-                                    </a>
-                                </li>
-                                <li class="nav-item" role="presentation">
-                                    <a class="nav-link" id="enx1-tab-5" data-toggle="pill" href="#enx1-tabs-5"
-                                        role="tab" aria-selected="false">
-                                        Shop
-                                    </a>
-                                </li>
+
+                                 @endforeach
                             </ul>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="tab-content" id="enx1-content">
-                <div class="tab-pane fade show active" id="enx1-tabs-1" role="tabpanel">
+                @foreach ($category as $catKey2 => $item)
+                    
+                <div class="tab-pane fade show @if($catKey2 == 0) {{ 'active' }} @endif" id="enx1-tabs-<?php echo $catKey2; ?>" role="tabpanel">
                     <div class="row">
+
+                        @foreach ($item->news as $newsKey => $newsItem)
+                            
                         <div class="col-lg-3 col-sm-6">
                             <div class="single-post-wrap">
                                 <div class="thumb">
-                                    <img src="{{ asset('public/frontend/img/post/19.png') }}" alt="img">
-                                    <a class="tag-base tag-light-green" href="cat-tech.html">Tech</a>
+                                    <img src="{{ asset($newsItem->photo) }}" alt="img" style="width: 265px; height:175px;">
+                                    <a class="tag-base @if($loop->odd) {{ 'tag-light-green' }} @else {{ 'tag-orange' }} @endif  " href="{{ route('category.news', $newsItem->category_slug) }}">{{ $newsItem->category }}</a>
                                 </div>
                                 <div class="details">
                                     <div class="post-meta-single mb-3">
                                         <ul>
                                             <li><i class="fa fa-clock-o"></i>08.22.2020</li>
-                                            <li><i class="fa fa-user"></i>John R. Lambert</li>
+                                            <li><i class="fa fa-user"></i> {{ $newsItem->reporter }}</li>
                                         </ul>
                                     </div>
-                                    <h6><a href="blog-details.html">Snowflake a Cloud Data Files Warehouse, to Go Public
+                                    <h6><a href="{{ route('news.detail', $newsItem->slug) }}">{{ $newsItem->title }}
                                         </a></h6>
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipi sicing elit, sed do eiusmod tempor
-                                        incididunt ut labore et dolore magna aliqua.</p>
+                                    <p>{!! Str::limit($newsItem->category, 150) !!}</p>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-3 col-sm-6">
-                            <div class="single-post-wrap">
-                                <div class="thumb">
-                                    <img src="{{ asset('public/frontend/img/post/20.png') }}" alt="img">
-                                    <a class="tag-base tag-blue" href="cat-tech.html">Tech</a>
-                                </div>
-                                <div class="details">
-                                    <div class="post-meta-single mb-3">
-                                        <ul>
-                                            <li><i class="fa fa-clock-o"></i>08.22.2020</li>
-                                            <li><i class="fa fa-user"></i>John R. Lambert</li>
-                                        </ul>
-                                    </div>
-                                    <h6><a href="blog-details.html">Mirzapur Season 2 Is Coming Soon, Amazon Prime
-                                            Video</a></h6>
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipi sicing elit, sed do eiusmod tempor
-                                        incididunt ut labore et dolore magna aliqua.</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-sm-6">
-                            <div class="single-post-wrap">
-                                <div class="thumb">
-                                    <img src="{{ asset('public/frontend/img/post/21.png') }}" alt="img">
-                                    <a class="tag-base tag-light-green" href="cat-tech.html">Tech</a>
-                                </div>
-                                <div class="details">
-                                    <div class="post-meta-single mb-3">
-                                        <ul>
-                                            <li><i class="fa fa-clock-o"></i>08.22.2020</li>
-                                            <li><i class="fa fa-user"></i>John R. Lambert</li>
-                                        </ul>
-                                    </div>
-                                    <h6><a href="blog-details.html">Tesla Seeks Approval for Sensor That Could Child</a>
-                                    </h6>
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipi sicing elit, sed do eiusmod tempor
-                                        incididunt ut labore et dolore magna aliqua.</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-sm-6">
-                            <div class="single-post-wrap">
-                                <div class="thumb">
-                                    <img src="{{ asset('public/frontend/img/post/22.png') }}" alt="img">
-                                    <a class="tag-base tag-blue" href="cat-tech.html">Tech</a>
-                                </div>
-                                <div class="details">
-                                    <div class="post-meta-single mb-3">
-                                        <ul>
-                                            <li><i class="fa fa-clock-o"></i>08.22.2020</li>
-                                            <li><i class="fa fa-user"></i>John R. Lambert</li>
-                                        </ul>
-                                    </div>
-                                    <h6><a href="blog-details.html">Nokia C3 With HD+ Display, 3,04 0mAh Battery May
-                                        </a></h6>
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipi sicing elit, sed do eiusmod tempor
-                                        incididunt ut labore et dolore magna aliqua.</p>
-                                </div>
-                            </div>
-                        </div>
+
+                        @endforeach
+
                     </div>
                 </div>
-                <div class="tab-pane fade" id="enx1-tabs-2" role="tabpanel">
-                    <div class="row">
-                        <div class="col-lg-3 col-sm-6">
-                            <div class="single-post-wrap">
-                                <div class="thumb">
-                                    <img src="{{ asset('public/frontend/img/post/20.png') }}" alt="img">
-                                    <a class="tag-base tag-blue" href="cat-tech.html">Tech</a>
-                                </div>
-                                <div class="details">
-                                    <div class="post-meta-single mb-3">
-                                        <ul>
-                                            <li><i class="fa fa-clock-o"></i>08.22.2020</li>
-                                            <li><i class="fa fa-user"></i>John R. Lambert</li>
-                                        </ul>
-                                    </div>
-                                    <h6><a href="blog-details.html">Mirzapur Season 2 Is Coming Soon, Amazon Prime
-                                            Video</a></h6>
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipi sicing elit, sed do eiusmod tempor
-                                        incididunt ut labore et dolore magna aliqua.</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-sm-6">
-                            <div class="single-post-wrap">
-                                <div class="thumb">
-                                    <img src="{{ asset('public/frontend/img/post/21.png') }}" alt="img">
-                                    <a class="tag-base tag-light-green" href="cat-tech.html">Tech</a>
-                                </div>
-                                <div class="details">
-                                    <div class="post-meta-single mb-3">
-                                        <ul>
-                                            <li><i class="fa fa-clock-o"></i>08.22.2020</li>
-                                            <li><i class="fa fa-user"></i>John R. Lambert</li>
-                                        </ul>
-                                    </div>
-                                    <h6><a href="blog-details.html">Tesla Seeks Approval for Sensor That Could Child</a>
-                                    </h6>
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipi sicing elit, sed do eiusmod tempor
-                                        incididunt ut labore et dolore magna aliqua.</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-sm-6">
-                            <div class="single-post-wrap">
-                                <div class="thumb">
-                                    <img src="{{ asset('public/frontend/img/post/19.png') }}" alt="img">
-                                    <a class="tag-base tag-light-green" href="cat-tech.html">Tech</a>
-                                </div>
-                                <div class="details">
-                                    <div class="post-meta-single mb-3">
-                                        <ul>
-                                            <li><i class="fa fa-clock-o"></i>08.22.2020</li>
-                                            <li><i class="fa fa-user"></i>John R. Lambert</li>
-                                        </ul>
-                                    </div>
-                                    <h6><a href="blog-details.html">Snowflake a Cloud Data Files Warehouse, to Go Public
-                                        </a></h6>
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipi sicing elit, sed do eiusmod tempor
-                                        incididunt ut labore et dolore magna aliqua.</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-sm-6">
-                            <div class="single-post-wrap">
-                                <div class="thumb">
-                                    <img src="{{ asset('public/frontend/img/post/22.png') }}" alt="img">
-                                    <a class="tag-base tag-blue" href="cat-tech.html">Tech</a>
-                                </div>
-                                <div class="details">
-                                    <div class="post-meta-single mb-3">
-                                        <ul>
-                                            <li><i class="fa fa-clock-o"></i>08.22.2020</li>
-                                            <li><i class="fa fa-user"></i>John R. Lambert</li>
-                                        </ul>
-                                    </div>
-                                    <h6><a href="blog-details.html">Nokia C3 With HD+ Display, 3,04 0mAh Battery May
-                                        </a></h6>
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipi sicing elit, sed do eiusmod tempor
-                                        incididunt ut labore et dolore magna aliqua.</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="tab-pane fade" id="enx1-tabs-3" role="tabpanel">
-                    <div class="row">
-                        <div class="col-lg-3 col-sm-6">
-                            <div class="single-post-wrap">
-                                <div class="thumb">
-                                    <img src="{{ asset('public/frontend/img/post/19.png') }}" alt="img">
-                                    <a class="tag-base tag-light-green" href="cat-tech.html">Tech</a>
-                                </div>
-                                <div class="details">
-                                    <div class="post-meta-single mb-3">
-                                        <ul>
-                                            <li><i class="fa fa-clock-o"></i>08.22.2020</li>
-                                            <li><i class="fa fa-user"></i>John R. Lambert</li>
-                                        </ul>
-                                    </div>
-                                    <h6><a href="blog-details.html">Snowflake a Cloud Data Files Warehouse, to Go Public
-                                        </a></h6>
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipi sicing elit, sed do eiusmod tempor
-                                        incididunt ut labore et dolore magna aliqua.</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-sm-6">
-                            <div class="single-post-wrap">
-                                <div class="thumb">
-                                    <img src="{{ asset('public/frontend/img/post/20.png') }}" alt="img">
-                                    <a class="tag-base tag-blue" href="cat-tech.html">Tech</a>
-                                </div>
-                                <div class="details">
-                                    <div class="post-meta-single mb-3">
-                                        <ul>
-                                            <li><i class="fa fa-clock-o"></i>08.22.2020</li>
-                                            <li><i class="fa fa-user"></i>John R. Lambert</li>
-                                        </ul>
-                                    </div>
-                                    <h6><a href="blog-details.html">Mirzapur Season 2 Is Coming Soon, Amazon Prime
-                                            Video</a></h6>
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipi sicing elit, sed do eiusmod tempor
-                                        incididunt ut labore et dolore magna aliqua.</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-sm-6">
-                            <div class="single-post-wrap">
-                                <div class="thumb">
-                                    <img src="{{ asset('public/frontend/img/post/21.png') }}" alt="img">
-                                    <a class="tag-base tag-light-green" href="cat-tech.html">Tech</a>
-                                </div>
-                                <div class="details">
-                                    <div class="post-meta-single mb-3">
-                                        <ul>
-                                            <li><i class="fa fa-clock-o"></i>08.22.2020</li>
-                                            <li><i class="fa fa-user"></i>John R. Lambert</li>
-                                        </ul>
-                                    </div>
-                                    <h6><a href="blog-details.html">Tesla Seeks Approval for Sensor That Could Child</a>
-                                    </h6>
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipi sicing elit, sed do eiusmod tempor
-                                        incididunt ut labore et dolore magna aliqua.</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-sm-6">
-                            <div class="single-post-wrap">
-                                <div class="thumb">
-                                    <img src="{{ asset('public/frontend/img/post/22.png') }}" alt="img">
-                                    <a class="tag-base tag-blue" href="cat-tech.html">Tech</a>
-                                </div>
-                                <div class="details">
-                                    <div class="post-meta-single mb-3">
-                                        <ul>
-                                            <li><i class="fa fa-clock-o"></i>08.22.2020</li>
-                                            <li><i class="fa fa-user"></i>John R. Lambert</li>
-                                        </ul>
-                                    </div>
-                                    <h6><a href="blog-details.html">Nokia C3 With HD+ Display, 3,04 0mAh Battery May
-                                        </a></h6>
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipi sicing elit, sed do eiusmod tempor
-                                        incididunt ut labore et dolore magna aliqua.</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="tab-pane fade" id="enx1-tabs-4" role="tabpanel">
-                    <div class="row">
-                        <div class="col-lg-3 col-sm-6">
-                            <div class="single-post-wrap">
-                                <div class="thumb">
-                                    <img src="{{ asset('public/frontend/img/post/20.png') }}" alt="img">
-                                    <a class="tag-base tag-blue" href="cat-tech.html">Tech</a>
-                                </div>
-                                <div class="details">
-                                    <div class="post-meta-single mb-3">
-                                        <ul>
-                                            <li><i class="fa fa-clock-o"></i>08.22.2020</li>
-                                            <li><i class="fa fa-user"></i>John R. Lambert</li>
-                                        </ul>
-                                    </div>
-                                    <h6><a href="blog-details.html">Mirzapur Season 2 Is Coming Soon, Amazon Prime
-                                            Video</a></h6>
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipi sicing elit, sed do eiusmod tempor
-                                        incididunt ut labore et dolore magna aliqua.</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-sm-6">
-                            <div class="single-post-wrap">
-                                <div class="thumb">
-                                    <img src="{{ asset('public/frontend/img/post/21.png') }}" alt="img">
-                                    <a class="tag-base tag-light-green" href="cat-tech.html">Tech</a>
-                                </div>
-                                <div class="details">
-                                    <div class="post-meta-single mb-3">
-                                        <ul>
-                                            <li><i class="fa fa-clock-o"></i>08.22.2020</li>
-                                            <li><i class="fa fa-user"></i>John R. Lambert</li>
-                                        </ul>
-                                    </div>
-                                    <h6><a href="blog-details.html">Tesla Seeks Approval for Sensor That Could Child</a>
-                                    </h6>
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipi sicing elit, sed do eiusmod tempor
-                                        incididunt ut labore et dolore magna aliqua.</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-sm-6">
-                            <div class="single-post-wrap">
-                                <div class="thumb">
-                                    <img src="{{ asset('public/frontend/img/post/19.png') }}" alt="img">
-                                    <a class="tag-base tag-light-green" href="cat-tech.html">Tech</a>
-                                </div>
-                                <div class="details">
-                                    <div class="post-meta-single mb-3">
-                                        <ul>
-                                            <li><i class="fa fa-clock-o"></i>08.22.2020</li>
-                                            <li><i class="fa fa-user"></i>John R. Lambert</li>
-                                        </ul>
-                                    </div>
-                                    <h6><a href="blog-details.html">Snowflake a Cloud Data Files Warehouse, to Go Public
-                                        </a></h6>
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipi sicing elit, sed do eiusmod tempor
-                                        incididunt ut labore et dolore magna aliqua.</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-sm-6">
-                            <div class="single-post-wrap">
-                                <div class="thumb">
-                                    <img src="{{ asset('public/frontend/img/post/22.png') }}" alt="img">
-                                    <a class="tag-base tag-blue" href="cat-tech.html">Tech</a>
-                                </div>
-                                <div class="details">
-                                    <div class="post-meta-single mb-3">
-                                        <ul>
-                                            <li><i class="fa fa-clock-o"></i>08.22.2020</li>
-                                            <li><i class="fa fa-user"></i>John R. Lambert</li>
-                                        </ul>
-                                    </div>
-                                    <h6><a href="blog-details.html">Nokia C3 With HD+ Display, 3,04 0mAh Battery May
-                                        </a></h6>
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipi sicing elit, sed do eiusmod tempor
-                                        incididunt ut labore et dolore magna aliqua.</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="tab-pane fade" id="enx1-tabs-5" role="tabpanel">
-                    <div class="row">
-                        <div class="col-lg-3 col-md-6">
-                            <div class="single-post-wrap">
-                                <div class="thumb">
-                                    <img src="{{ asset('public/frontend/img/post/20.png') }}" alt="img">
-                                    <a class="tag-base tag-blue" href="cat-tech.html">Tech</a>
-                                </div>
-                                <div class="details">
-                                    <div class="post-meta-single mb-3">
-                                        <ul>
-                                            <li><i class="fa fa-clock-o"></i>08.22.2020</li>
-                                            <li><i class="fa fa-user"></i>John R. Lambert</li>
-                                        </ul>
-                                    </div>
-                                    <h6><a href="blog-details.html">Mirzapur Season 2 Is Coming Soon, Amazon Prime
-                                            Video</a></h6>
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipi sicing elit, sed do eiusmod tempor
-                                        incididunt ut labore et dolore magna aliqua.</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-md-6">
-                            <div class="single-post-wrap">
-                                <div class="thumb">
-                                    <img src="{{ asset('public/frontend/img/post/21.png') }}" alt="img">
-                                    <a class="tag-base tag-light-green" href="cat-tech.html">Tech</a>
-                                </div>
-                                <div class="details">
-                                    <div class="post-meta-single mb-3">
-                                        <ul>
-                                            <li><i class="fa fa-clock-o"></i>08.22.2020</li>
-                                            <li><i class="fa fa-user"></i>John R. Lambert</li>
-                                        </ul>
-                                    </div>
-                                    <h6><a href="blog-details.html">Tesla Seeks Approval for Sensor That Could Child</a>
-                                    </h6>
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipi sicing elit, sed do eiusmod tempor
-                                        incididunt ut labore et dolore magna aliqua.</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-md-6">
-                            <div class="single-post-wrap">
-                                <div class="thumb">
-                                    <img src="{{ asset('public/frontend/img/post/19.png') }}" alt="img">
-                                    <a class="tag-base tag-light-green" href="cat-tech.html">Tech</a>
-                                </div>
-                                <div class="details">
-                                    <div class="post-meta-single mb-3">
-                                        <ul>
-                                            <li><i class="fa fa-clock-o"></i>08.22.2020</li>
-                                            <li><i class="fa fa-user"></i>John R. Lambert</li>
-                                        </ul>
-                                    </div>
-                                    <h6><a href="blog-details.html">Snowflake a Cloud Data Files Warehouse, to Go Public
-                                        </a></h6>
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipi sicing elit, sed do eiusmod tempor
-                                        incididunt ut labore et dolore magna aliqua.</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-md-6">
-                            <div class="single-post-wrap">
-                                <div class="thumb">
-                                    <img src="{{ asset('public/frontend/img/post/22.png') }}" alt="img">
-                                    <a class="tag-base tag-blue" href="cat-tech.html">Tech</a>
-                                </div>
-                                <div class="details">
-                                    <div class="post-meta-single mb-3">
-                                        <ul>
-                                            <li><i class="fa fa-clock-o"></i>08.22.2020</li>
-                                            <li><i class="fa fa-user"></i>John R. Lambert</li>
-                                        </ul>
-                                    </div>
-                                    <h6><a href="blog-details.html">Nokia C3 With HD+ Display, 3,04 0mAh Battery May
-                                        </a></h6>
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipi sicing elit, sed do eiusmod tempor
-                                        incididunt ut labore et dolore magna aliqua.</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+
+                @endforeach
             </div>
         </div>
     </div>

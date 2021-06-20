@@ -89,10 +89,18 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ route('admin.galleries.index') }}" class="nav-link @if (request()->is('admin/galleries')) {{ 'active' }} @endif">
+                    <a href="{{ route('admin.ads.index') }}" class="nav-link @if (request()->is('admin/ads')) {{ 'active' }} @endif">
                         <i class="nav-icon far fa-image"></i>
                         <p>
-                            Gallery
+                            Ads
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ route('admin.galleries.index') }}" class="nav-link @if (request()->is('admin/galleries')) {{ 'active' }} @endif">
+                        <i class="nav-icon fas fa-video"></i>
+                        <p>
+                            Video
                         </p>
                     </a>
                 </li>
@@ -104,6 +112,7 @@
                         </p>
                     </a>
                 </li>
+                
             @endhasrole
             @hasrole('Editor')
                 <li class="nav-item @if (request()->is('editor/news') || request()->is('editor/news/*')) {{ 'menu-open' }} @endif">

@@ -58,7 +58,7 @@
 												@elseif ($item->position == 5)
 													{{ 'Fifth' }} 
 												@endif</td>
-                                            <td>{{ Str::limit($item->content, 100) }}</td>
+                                            <td>{!! Str::limit($item->content, 100) !!}</td>
                                             <td>
                                                 <img src="{{ asset($item->photo) }}" alt=""
                                                     style="width: 50px; height: 50px;">

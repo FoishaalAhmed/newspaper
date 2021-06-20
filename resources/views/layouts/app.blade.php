@@ -28,7 +28,7 @@
     </div>
 
     <div class="td-search-popup" id="td-search-popup">
-        <form action="https://solverwp.com/demo/html/nextpage/index.html" class="search-form">
+        <form action="#" class="search-form">
             <div class="form-group">
                 <input type="text" class="form-control" placeholder="Search.....">
             </div>
@@ -58,11 +58,10 @@
                             <div class="topbar-date d-none d-lg-inline-block"><i class="fa fa-calendar"></i> Saturday,
                                 October 7</div>
                             <ul class="social-area social-area-2">
-                                <li><a class="facebook-icon" href="#"><i class="fa fa-facebook"></i></a></li>
-                                <li><a class="twitter-icon" href="#"><i class="fa fa-twitter"></i></a></li>
-                                <li><a class="youtube-icon" href="#"><i class="fa fa-youtube-play"></i></a></li>
-                                <li><a class="instagram-icon" href="#"><i class="fa fa-instagram"></i></a></li>
-                                <li><a class="google-icon" href="#"><i class="fa fa-google-plus"></i></a></li>
+                                <li><a class="facebook-icon" href="https://{{ $contact->facebook }}"><i class="fa fa-facebook"></i></a></li>
+                                <li><a class="twitter-icon" href="https://{{ $contact->twitter }}"><i class="fa fa-twitter"></i></a></li>
+                                <li><a class="youtube-icon" href="https://{{ $contact->pinterest }}"><i class="fa fa-youtube-play"></i></a></li>
+                                <li><a class="instagram-icon" href="https://{{ $contact->instagram }}"><i class="fa fa-instagram"></i></a></li>
                             </ul>
                         </div>
                     </div>
@@ -79,11 +78,16 @@
                             <a class="main-logo" href="index-2.html"><img src="{{ asset('public/frontend/img/logo.png') }}" alt="img"></a>
                         </div>
                     </div>
+                    @if ($headerAd != null)
+                        
+                    
                     <div class="col-xl-6 col-lg-7 text-md-right text-center">
-                        <a href="#" class="adbar-right">
-                            <img src="{{ asset('public/frontend/img/add/1.png') }}" alt="img">
+                        <a href="{{ $headerAd->link }}" class="adbar-right">
+                            <img src="{{ asset($headerAd->photo) }}" alt="img">
                         </a>
                     </div>
+
+                    @endif
                 </div>
             </div>
         </div>
@@ -106,34 +110,15 @@
                 </div>
                 <div class="collapse navbar-collapse" id="nextpage_main_menu">
                     <ul class="navbar-nav menu-open">
-                        <li class="current-menu-item">
+                        {{-- <li class="current-menu-item">
                             <a href="#">Home</a>
-                        </li>
-                        <li class="current-menu-item">
-                            <a href="#">Category</a>
-                        </li>
-                        <li class="current-menu-item">
-                            <a href="#">Pages</a>
-                        </li>
-                        <li class="current-menu-item">
-                            <a href="#">Blog</a>
-                        </li>
-                        <li class="current-menu-item">
-                            <a href="#">Home</a>
-                        </li>
-                        <li class="current-menu-item">
-                            <a href="#">Category</a>
-                        </li>
-                        <li class="current-menu-item">
-                            <a href="#">Pages</a>
-                        </li>
-                        <li class="current-menu-item">
-                            <a href="#">Blog</a>
-                        </li>
-                        <li class="current-menu-item">
-                            <a href="#">Blog</a>
-                        </li>
-                        
+                        </li> --}}
+                        @foreach ($categories as $item)
+                            <li class="current-menu-item">
+                                <a href="{{ route('category.news', $item->slug) }}">{{ $item->name }}</a>
+                            </li>
+                        @endforeach
+                
                     </ul>
                 </div>
                 <div class="nav-right-part nav-right-part-desktop">
@@ -154,37 +139,31 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-3 col-sm-6">
+                    @if ($about != null)
+                        
+                    
                     <div class="widget">
                         <h5 class="widget-title">ABOUT US</h5>
                         <div class="widget_about">
-                            <p>Consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna
-                                aliqua. Quis ipsum ultrices gravida. Risus commodo viverra maecenas accumsan lacus vel
-                                facilisis.</p>
+                            <p>{!! $about->text !!}</p>
                             <ul class="social-area social-area-2 mt-4">
-                                <li><a class="facebook-icon" href="#"><i class="fa fa-facebook"></i></a></li>
-                                <li><a class="twitter-icon" href="#"><i class="fa fa-twitter"></i></a></li>
-                                <li><a class="youtube-icon" href="#"><i class="fa fa-youtube-play"></i></a></li>
-                                <li><a class="instagram-icon" href="#"><i class="fa fa-instagram"></i></a></li>
-                                <li><a class="google-icon" href="#"><i class="fa fa-google-plus"></i></a></li>
+                                <li><a class="facebook-icon" href="https://{{ $contact->facebook }}"><i class="fa fa-facebook"></i></a></li>
+                                <li><a class="twitter-icon" href="https://{{ $contact->twitter }}"><i class="fa fa-twitter"></i></a></li>
+                                <li><a class="youtube-icon" href="https://{{ $contact->pinterest }}"><i class="fa fa-youtube-play"></i></a></li>
+                                <li><a class="instagram-icon" href="https://{{ $contact->instagram }}"><i class="fa fa-instagram"></i></a></li>
                             </ul>
                         </div>
                     </div>
+                    @endif
                 </div>
                 <div class="col-lg-3 col-sm-6">
                     <div class="widget widget_tag_cloud">
-                        <h5 class="widget-title">TAGS</h5>
+                        <h5 class="widget-title">CATEGORIES</h5>
                         <div class="tagcloud">
-                            <a href="#">Consectetur</a>
-                            <a href="#">Video</a>
-                            <a href="#">App</a>
-                            <a href="#">Food</a>
-                            <a href="#">Game</a>
-                            <a href="#">Internet</a>
-                            <a href="#">Phones</a>
-                            <a href="#">Development</a>
-                            <a href="#">Video</a>
-                            <a href="#">Game</a>
-                            <a href="#">Gadgets</a>
+                            @foreach ($categories as $item)
+                                <a href="{{ route('category.news', $item->slug) }}">{{ $item->name }}</a>
+                            @endforeach
+
                         </div>
                     </div>
                 </div>
@@ -192,65 +171,40 @@
                     <div class="widget">
                         <h5 class="widget-title">CONTACTS</h5>
                         <ul class="contact_info_list">
-                            <li><i class="fa fa-map-marker"></i> 829 Cabell Avenue Arlington, VA 22202</li>
-                            <li><i class="fa fa-phone"></i> +088 012121240</li>
-                            <li><i class="fa fa-envelope-o"></i> <a
-                                    href="https://solverwp.com/cdn-cgi/l/email-protection" class="__cf_email__"
-                                    data-cfemail="1f567179705f687a7d6c766b7a317c7072">[email&#160;protected]</a> <br> <a
-                                    href="https://solverwp.com/cdn-cgi/l/email-protection" class="__cf_email__"
-                                    data-cfemail="efbc9a9f9f809d9baf828e8683c18c8082">[email&#160;protected]</a></li>
+                            <li><i class="fa fa-map-marker"></i> {{ $contact->address }}</li>
+                            <li><i class="fa fa-phone"></i> {{ $contact->phone }}</li>
+                            <li><i class="fa fa-envelope-o"></i> <a href="#" class="__cf_email__" >{{ $contact->email }}</a>
                         </ul>
                     </div>
                 </div>
                 <div class="col-lg-3 col-sm-6">
                     <div class="widget widget_recent_post">
                         <h5 class="widget-title">POPULAR NEWS</h5>
+                        @foreach ($latest as $item)
+                        
                         <div class="single-post-list-wrap style-white">
                             <div class="media">
                                 <div class="media-left">
-                                    <img src="{{ asset('public/frontend/img/post/list/1.png') }}" alt="img">
+                                    <img src="{{ asset($item->photo) }}" alt="img">
                                 </div>
                                 <div class="media-body">
                                     <div class="details">
                                         <div class="post-meta-single">
                                             <ul>
-                                                <li><i class="fa fa-clock-o"></i>08.22.2020</li>
+                                                <li><i class="fa fa-clock-o"></i>{{ date('d.m.Y', strtotime($item->date)) }}</li>
                                             </ul>
                                         </div>
-                                        <h6 class="title"><a href="blog-details.html">Himachal Pradesh rules in order to
-                                                allow tourists </a></h6>
+                                        <h6 class="title"><a href="{{ route('news.detail', $item->slug) }}"> {{ $item->title }} </a></h6>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="single-post-list-wrap style-white">
-                            <div class="media">
-                                <div class="media-left">
-                                    <img src="{{ asset('public/frontend/img/post/list/2.png') }}" alt="img">
-                                </div>
-                                <div class="media-body">
-                                    <div class="details">
-                                        <div class="post-meta-single">
-                                            <ul>
-                                                <li><i class="fa fa-clock-o"></i>08.22.2020</li>
-                                            </ul>
-                                        </div>
-                                        <h6 class="title"><a href="blog-details.html">Himachal Pradesh rules in order to
-                                                allow tourists </a></h6>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+
+                        @endforeach
                     </div>
                 </div>
             </div>
             <div class="footer-bottom text-center">
-                <ul class="widget_nav_menu">
-                    <li><a href="#">About</a></li>
-                    <li><a href="#">Terms & Conditions</a></li>
-                    <li><a href="#">rivacy Policy</a></li>
-                    <li><a href="#">Contact</a></li>
-                </ul>
                 <p>Copyright ©2021 Nextpage</p>
             </div>
         </div>

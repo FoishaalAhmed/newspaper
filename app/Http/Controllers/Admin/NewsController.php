@@ -24,7 +24,7 @@ class NewsController extends Controller
 
     public function create()
     {
-        $categories = Category::orderBy('name', 'asc')->get();
+        $categories = Category::orderBy('position', 'asc')->get();
         return view('backend.admin.news.create', compact('categories'));
     }
 
@@ -37,7 +37,7 @@ class NewsController extends Controller
     public function edit($id)
     {
         $news = News::findOrFail($id);
-        $categories = Category::orderBy('name', 'asc')->get();
+        $categories = Category::orderBy('position', 'asc')->get();
         return view('backend.admin.news.edit', compact('categories', 'news'));
     }
 
