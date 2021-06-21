@@ -1,5 +1,5 @@
 @extends('backend.layouts.app')
-@section('title', 'Galleries')
+@section('title', 'Video')
 @section('backend-content')
     <!-- Main content -->
     <section class="content">
@@ -7,7 +7,7 @@
             <!-- SELECT2 EXAMPLE -->
             <div class="card card-default">
                 <div class="card-header">
-                    <h3 class="card-title">{{ __('Galleries') }}</h3>
+                    <h3 class="card-title">{{ __('Video') }}</h3>
                     <div class="card-tools">
                         <button type="button" class="btn btn-tool" data-card-widget="collapse">
                             <i class="fas fa-minus"></i>
@@ -27,23 +27,21 @@
                             @method('PUT')
                             <div class="row">
                                 <div class="col-md-9">
-                                    <div class="form-group">
+                                    <div class="form-group" >
                                         <div class="col-md-12">
-                                            <label class="control-label">{{ __('Type') }}</label>
-                                            <select name="type" class="form-control" required="" style="width: 100%"
-                                                id="type" onchange="showHideVideoPhoto()">
-                                                <option value="Video" @if ($gallery->type == 'Video') {{ 'selected' }} @endif>Video</option>
-                                                <option value="Photo" @if ($gallery->type == 'Photo') {{ 'selected' }} @endif>Photo</option>
-                                            </select>
+                                            <label class="control-label">{{ __('Title') }}</label>
+                                            <input type="text" name="title" class="form-control"
+                                                placeholder="{{ __('Title') }}" autocomplete="off"
+                                                value="{{ $gallery->title }}" />
                                         </div>
                                     </div>
                                     <!-- /.form-group -->
-                                    <div class="form-group" id="video" style="display: @if($gallery->type != 'Video' ) {{ 'none' }} @endif">
+                                    <div class="form-group">
                                         <div class="col-md-12">
                                             <label class="control-label">{{ __('Video') }}</label>
                                             <input type="text" name="link" class="form-control"
                                                 placeholder="{{ __('Video') }}" autocomplete="off"
-                                                value="{{ $gallery->link }}" id="link" onkeyup="youtube_parser(this.value);"/>
+                                                value="{{ $gallery->video }}" id="link" onkeyup="youtube_parser(this.value);"/>
 
                                             <input type="hidden" name="video" class="form-control"
                                                 placeholder="{{ __('Video') }}" autocomplete="off"
@@ -53,7 +51,7 @@
                                     <!-- /.form-group -->
                                 </div>
 
-                                <div class="col-md-3" id="photo" style="display: @if($gallery->type != 'Photo' ) {{ 'none' }} @endif">
+                                <div class="col-md-3">
                                     <div class="card card-primary card-outline">
                                         <div class="card-body box-profile">
                                             <div class="text-center">
@@ -83,14 +81,12 @@
                             @csrf
                             <div class="row">
                                 <div class="col-md-9">
-                                    <div class="form-group">
+                                    <div class="form-group" >
                                         <div class="col-md-12">
-                                            <label class="control-label">{{ __('Type') }}</label>
-                                            <select name="type" class="form-control" required="" style="width: 100%"
-                                                id="type" onchange="showHideVideoPhoto()">
-                                                <option value="Video" @if (old('type') == 'Video') {{ 'selected' }} @endif>Video</option>
-                                                <option value="Photo" @if (old('type') == 'Photo') {{ 'selected' }} @endif>Photo</option>
-                                            </select>
+                                            <label class="control-label">{{ __('Title') }}</label>
+                                            <input type="text" name="title" class="form-control"
+                                                placeholder="{{ __('Title') }}" autocomplete="off"
+                                                value="{{ old('title') }}" />
                                         </div>
                                     </div>
                                     <!-- /.form-group -->
@@ -109,7 +105,7 @@
                                     <!-- /.form-group -->
                                 </div>
 
-                                <div class="col-md-3" id="photo" style="display: none;">
+                                <div class="col-md-3">
                                     <div class="card card-primary card-outline">
                                         <div class="card-body box-profile">
                                             <div class="text-center">
@@ -141,9 +137,9 @@
                                 <thead>
                                     <tr>
                                         <th>{{ __('Sl') }}</th>
-                                        <th>{{ __('Type') }}</th>
+                                        <th>{{ __('Title') }}</th>
                                         <th>{{ __('Video') }}</th>
-                                        <th>{{ __('Photo') }}</th>
+                                        <th>{{ __('Thumbnail') }}</th>
                                         <th>{{ __('Action') }}</th>
                                     </tr>
                                 </thead>
@@ -151,7 +147,7 @@
                                     @foreach ($galleries as $item)
                                         <tr>
                                             <td>{{ $loop->index + 1 }}</td>
-                                            <td>{{ $item->type }}</td>
+                                            <td>{{ $item->title }}</td>
                                             <td>{{ $item->video }}</td>
                                             <td>
                                                 <img src="{{ asset($item->photo) }}" alt=""
@@ -161,7 +157,7 @@
                                                 <a class="btn btn-sm bg-teal"
                                                     href="{{ route('editor.galleries.edit', [$item->id]) }}"><span
                                                         class="fas fa-edit"></span></a>
-                                                {{-- <form action="{{ route('editor.galleries.destroy', [$item->id]) }}"
+                                                <form action="{{ route('editor.galleries.destroy', [$item->id]) }}"
                                                     method="post" style="display: none;"
                                                     id="delete-form-{{ $item->id }}">
                                                     @csrf
@@ -172,7 +168,7 @@
                                                                             getElementById('delete-form-{{ $item->id }}').submit();
                                                                             }else{
                                                                             event.preventDefault();
-                                                                            }"><span class="fas fa-trash"></span></a> --}}
+                                                                            }"><span class="fas fa-trash"></span></a>
                                             </td>
                                         </tr>
                                     @endforeach
@@ -194,18 +190,6 @@
 @section('footer')
 
     <script>
-        function showHideVideoPhoto() {
-
-            let type = $('#type').val();
-
-            if (type == 'Photo') {
-                $('#photo').show();
-                $('#video').hide();
-            } else {
-                $('#photo').hide();
-                $('#video').show();
-            }
-        }
 
         function readPicture(input) {
             if (input.files && input.files[0]) {

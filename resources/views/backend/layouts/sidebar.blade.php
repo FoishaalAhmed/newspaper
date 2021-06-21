@@ -71,7 +71,7 @@
                         <li class="nav-item">
                             <a href="{{ route('admin.users.create') }}" class="nav-link @if (request()->is('admin/users/create')) {{ 'active' }} @endif">
                                 <i class="fas fa-plus-square nav-icon"></i>
-                                <p>New Users</p>
+                                <p>New User</p>
                             </a>
                         </li>
                         <li class="nav-item">
@@ -103,6 +103,29 @@
                             Video
                         </p>
                     </a>
+                </li>
+                <li class="nav-item @if (request()->is('admin/pages') || request()->is('admin/pages/*')) {{ 'menu-open' }} @endif">
+                    <a href="#" class="nav-link @if (request()->is('admin/pages') || request()->is('admin/pages/*')) {{ 'active' }} @endif">
+                        <i class="nav-icon fas fa-file"></i>
+                        <p>
+                            Pages
+                            <i class="fas fa-angle-left right"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{ route('admin.pages.create') }}" class="nav-link @if (request()->is('admin/pages/create')) {{ 'active' }} @endif">
+                                <i class="fas fa-plus-square nav-icon"></i>
+                                <p>New Page</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('admin.pages.index') }}" class="nav-link @if (request()->is('admin/pages')) {{ 'active' }} @endif">
+                                <i class="fas fa-list-alt nav-icon"></i>
+                                <p>Pages</p>
+                            </a>
+                        </li>
+                    </ul>
                 </li>
                 <li class="nav-item">
                     <a href="{{ route('admin.contacts') }}" class="nav-link @if (request()->is('admin/contacts')) {{ 'active' }} @endif">
@@ -140,9 +163,9 @@
                 </li>
                 <li class="nav-item">
                     <a href="{{ route('editor.galleries.index') }}" class="nav-link @if (request()->is('editor/galleries')) {{ 'active' }} @endif">
-                        <i class="nav-icon far fa-image"></i>
+                        <i class="nav-icon far fa-video"></i>
                         <p>
-                            Gallery
+                            Video
                         </p>
                     </a>
                 </li>

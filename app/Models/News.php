@@ -57,6 +57,19 @@ class News extends Model
         return $randomEightNews;
     }
 
+    public function getSearchedNews($search)
+    {
+        $searchedNews = $this->join('categories', 'news.category_id', '=', 'categories.id')
+            ->where('news.title', 'like', '%' . $search . '%')
+            ->orWhere('categories.name', 'like', '%' . $search . '%')
+            ->orWhere('news.content', 'like', '%' . $search . '%')
+            ->orderBy('news.created_at', 'desc')
+            ->select('news.*', 'categories.name as category', 'categories.slug as category_slug')
+            ->paginate(18);
+        $searchedNews->appends(['search' => $search]);
+        return $searchedNews;
+    }
+
     public function getTrendingNewsByCategory(Int $category_id)
     {
         $trendingNews = $this->join('categories', 'news.category_id', '=', 'categories.id')

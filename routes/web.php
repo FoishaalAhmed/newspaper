@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [HomeController::class, 'index']);
 Route::get('/news/{slug}/category', [NewsController::class, 'news'])->name('category.news');
 Route::get('/news/{slug}', [NewsController::class, 'detail'])->name('news.detail');
+Route::get('/search', [NewsController::class, 'search'])->name('news.search');
+
 
 
 
@@ -24,3 +26,5 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/profile-update', [ProfileController::class, 'update'])->name('profile.update');
     /** profile route end **/
 });
+
+Route::get('/{slug}', [HomeController::class, 'page'])->name('pages');

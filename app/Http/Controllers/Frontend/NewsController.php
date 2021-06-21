@@ -21,11 +21,23 @@ class NewsController extends Controller
     public function detail($slug)
     {
         $newsObject = new News();
+        News::where('slug', $slug)->increment('view', 1);
         $news = $newsObject->getNewsBySlug($slug);
         $relatedNews = news::where('category_id', $news->category_id)->where('id', '!=', $news->id)->take(3)->get();
         $latest = News::latest()->take(3)->get();
         $popular = News::orderBy('view', 'desc')->take(3)->get();
         return view('frontend.detail', compact('news', 'relatedNews', 'latest', 'popular'));
+    }
+
+    public function search(Request $request)
+    {
+        $newsObject = new News();
+        $category = '';
+        $search = $request->search;
+        $news = $newsObject->getSearchedNews($search);
+        $latest = News::latest()->take(3)->get();
+        $popular = News::orderBy('view', 'desc')->take(3)->get();
+        return view('frontend.news', compact('news', 'category', 'latest', 'popular'));
     }
 
     

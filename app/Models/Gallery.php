@@ -10,7 +10,7 @@ class Gallery extends Model
     use HasFactory;
 
     protected $fillable = [
-        'type', 'photo', 'video',
+        'type', 'photo', 'video', 'title',
     ];
 
     public static $validateRule = [

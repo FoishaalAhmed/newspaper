@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', "{ $news->title }")
+@section('title', "$news->title")
 @section('frontend-content')
     <section class="page-title-area">
         <div class="container">
@@ -161,7 +161,7 @@
                                     <div class="trending-post">
                                         <div class="single-post-wrap style-overlay">
                                             <div class="thumb">
-                                                <img src="assets/img/post/5.png" alt="img">
+                                                <img src="{{ asset('public/frontend/img/post/5.png') }}" alt="img">
                                             </div>
                                             <div class="details">
                                                 <div class="post-meta-single">
@@ -172,7 +172,7 @@
                                         </div>
                                         <div class="single-post-wrap style-overlay">
                                             <div class="thumb">
-                                                <img src="assets/img/post/6.png" alt="img">
+                                                <img src="{{ asset('public/frontend/img/post/6.png') }}" alt="img">
                                             </div>
                                             <div class="details">
                                                 <div class="post-meta-single">
@@ -183,7 +183,7 @@
                                         </div>
                                         <div class="single-post-wrap style-overlay mb-0">
                                             <div class="thumb">
-                                                <img src="assets/img/post/7.png" alt="img">
+                                                <img src="{{ asset('public/frontend/img/post/7.png') }}" alt="img">
                                             </div>
                                             <div class="details">
                                                 <div class="post-meta-single">
@@ -198,7 +198,7 @@
                                     <div class="trending-post">
                                         <div class="single-post-wrap style-overlay">
                                             <div class="thumb">
-                                                <img src="assets/img/post/5.png" alt="img">
+                                                <img src="{{ asset('public/frontend/img/post/5.png') }}" alt="img">
                                             </div>
                                             <div class="details">
                                                 <div class="post-meta-single">
@@ -209,7 +209,7 @@
                                         </div>
                                         <div class="single-post-wrap style-overlay">
                                             <div class="thumb">
-                                                <img src="assets/img/post/6.png" alt="img">
+                                                <img src="{{ asset('public/frontend/img/post/6.png') }}" alt="img">
                                             </div>
                                             <div class="details">
                                                 <div class="post-meta-single">
@@ -220,7 +220,7 @@
                                         </div>
                                         <div class="single-post-wrap style-overlay mb-0">
                                             <div class="thumb">
-                                                <img src="assets/img/post/7.png" alt="img">
+                                                <img src="{{ asset('public/frontend/img/post/7.png') }}" alt="img">
                                             </div>
                                             <div class="details">
                                                 <div class="post-meta-single">
