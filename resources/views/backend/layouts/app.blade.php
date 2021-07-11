@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>News | @yield('title')</title>
+    <title>@yield('title')</title>
 
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet"
@@ -136,7 +136,7 @@
             <a href="{{ URL::to('/') }}" class="brand-link">
                 <img src="{{ asset('public/backend/dist/img/AdminLTELogo.png') }}" alt="AdminLTE Logo"
                     class="brand-image img-circle elevation-3" style="opacity: .8">
-                <span class="brand-text font-weight-light">News</span>
+                <span class="brand-text font-weight-light">NewsTahirpur24</span>
             </a>
 
             @include('backend.layouts.sidebar')
@@ -170,7 +170,7 @@
 
         <!-- Main Footer -->
         <footer class="main-footer">
-            <strong>Copyright &copy; {{ date('Y') }} <a href="{{ URL::to('/') }}">news.com</a>.</strong>
+            <strong>Copyright &copy; {{ date('Y') }} <a href="{{ URL::to('/') }}">newstahirpur24.com</a>.</strong>
             All rights reserved.
             <div class="float-right d-none d-sm-inline-block">
                 <b>Develop By <a href="https://ictbanglabd.com/contact">ICTBANGLA</a></b>

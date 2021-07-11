@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\GalleryController;
 use App\Http\Controllers\Admin\NewsController;
 use App\Http\Controllers\Admin\PageController;
+use App\Http\Controllers\Admin\TeamController;
 use App\Http\Controllers\Admin\UserController;
 
 Route::group(['prefix' => '/admin', 'as' => 'admin.', 'middleware' => ['admin', 'auth']], function () {
@@ -18,8 +19,8 @@ Route::group(['prefix' => '/admin', 'as' => 'admin.', 'middleware' => ['admin', 
     Route::resource('pages', PageController::class);
     Route::resource('ads', AdController::class);
     Route::resource('users', UserController::class);
+    Route::resource('teams', TeamController::class);
     Route::resource('categories', CategoryController::class);
     Route::resource('galleries', GalleryController::class);
     Route::resource('news', NewsController::class);
-
 });

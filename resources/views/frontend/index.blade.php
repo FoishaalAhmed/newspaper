@@ -1,5 +1,6 @@
 @extends('layouts.app')
 
+@section('title', 'Home')
 @section('frontend-content')
 
 <div class="banner-area banner-inner-1 bg-black">
@@ -21,18 +22,19 @@
                         <div class="banner-details mt-4 mt-lg-0">
                             <div class="post-meta-single">
                                 <ul>
-                                    <li><a class="tag-base tag-blue" href="{{ route('category.news', $mainLead[0]['category_slug']) }}">{{ $mainLead[0]['category'] }}</a></li>
+                                    <li><a class="tag-base tag-blue" href="{{ route('category.news', [$mainLead[0]['category_slug'], $mainLead[0]['category_id']]) }}">{{ $mainLead[0]['category'] }}</a></li>
                                     <li class="date"><i class="fa fa-clock-o"></i>{{ date('d.m.Y', strtotime($mainLead[0]['date'])) }}</li>
                                 </ul>
                             </div>
                             <h2>{{ $mainLead[0]['title'] }}</h2>
-                            <p>{!! Str::limit($mainLead[0]['content'], 250) !!} </p>
-                            <a class="btn btn-blue" href="{{ route('news.detail', $mainLead[0]['slug']) }}">Read More</a>
+                            <div style="color:white">{!! Str::limit($mainLead[0]['content'], 250) !!} </div>
+                            <a class="btn btn-blue" href="{{ route('news.detail', [$mainLead[0]['id'], $mainLead[0]['slug']]) }}">আরও পড়ুন</a>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+        
 
         <div class="container">
             <div class="row">
@@ -40,11 +42,11 @@
                 <div class="col-lg-3 col-sm-6">
                     <div class="single-post-wrap style-white">
                         <div class="thumb">
-                            <img src="{{ asset($lead['photo']) }}" alt="img" style="width: 265px; height:175px;">
-                            <a class="tag-base @if($loop->odd) {{ 'tag-blue' }} @else {{ 'tag-orange' }} @endif" href="{{ route('category.news', $lead['category_slug']) }}">{{ $lead['category'] }}</a>
+                            <img src="{{ asset($lead['photo']) }}" alt="img" style="width: 100%; height:175px;">
+                            <a class="tag-base @if($loop->odd) {{ 'tag-blue' }} @else {{ 'tag-orange' }} @endif" href="{{ route('category.news', [$lead['category_slug'], $lead['category_id']]) }}">{{ $lead['category'] }}</a>
                         </div>
                         <div class="details">
-                            <h6 class="title"><a href="{{  route('news.detail', $lead['slug'])  }}">{{ $lead['title'] }}</a></h6>
+                            <h6 class="title"><a href="{{  route('news.detail', [$lead['id'], $lead['slug']])  }}">{{ $lead['title'] }}</a></h6>
                             <div class="post-meta-single mt-3">
                                 <ul>
                                     <li><i class="fa fa-clock-o"></i>{{ date('d.m.Y', strtotime($lead['date'])) }}</li>
@@ -58,12 +60,12 @@
         </div>
     </div>
 
-    <div class="post-area pd-top-75 pd-bottom-50">
+    <div class="post-area pd-top-75 pd-bottom-50" style="background:white">
         <div class="container">
             <div class="row">
                 <div class="col-lg-3 col-md-6">
                     <div class="section-title">
-                        <h6 class="title">Trending News</h6>
+                        <h6 class="title">ট্রেন্ডিং নিউজ</h6>
                     </div>
                     <div class="post-slider owl-carousel">
                         @php
@@ -76,13 +78,13 @@
                                     
                                 <div class="single-post-wrap style-overlay">
                                     <div class="thumb">
-                                        <img src="{{ asset($item['photo']) }}" alt="img" style="width: 265px; height: 120px;">
+                                        <img src="{{ asset($item['photo']) }}" alt="img" style="width: 100%; height: 120px;">
                                     </div>
                                     <div class="details">
                                         <div class="post-meta-single">
                                             <p><i class="fa fa-clock-o"></i>{{ date('d M Y', strtotime($item['date'])) }}</p>
                                         </div>
-                                        <h6 class="title"><a href="{{ route('news.detail', $item['slug']) }}">{{ $item['title'] }}</a></h6>
+                                        <h6 class="title"><a href="{{ route('news.detail', [$item['id'], $item['slug']]) }}">{{ $item['title'] }}</a></h6>
                                     </div>
                                 </div>
 
@@ -102,7 +104,7 @@
                                         <div class="post-meta-single">
                                             <p><i class="fa fa-clock-o"></i>{{ date('d M Y', strtotime($item['date'])) }}</p>
                                         </div>
-                                        <h6 class="title"><a href="{{ route('news.detail', $item['slug']) }}">{{ $item['title'] }}</a></h6>
+                                        <h6 class="title"><a href="{{ route('news.detail', [$item['id'], $item['slug']]) }}">{{ $item['title'] }}</a></h6>
                                     </div>
                                 </div>
 
@@ -113,7 +115,7 @@
                 </div>
                 <div class="col-lg-3 col-md-6">
                     <div class="section-title">
-                        <h6 class="title">Latest News</h6>
+                        <h6 class="title">সর্বশেষ সংবাদ</h6>
                     </div>
                     <div class="post-slider owl-carousel">
                         @php
@@ -125,7 +127,7 @@
                                 <div class="single-post-list-wrap">
                                     <div class="media">
                                         <div class="media-left">
-                                            <img src="{{ asset($item['photo']) }}" alt="img">
+                                            <img src="{{ asset($item['photo']) }}" alt="img" style="width:100px;">
                                         </div>
                                         <div class="media-body">
                                             <div class="details">
@@ -134,7 +136,7 @@
                                                         <li><i class="fa fa-clock-o"></i>{{ date('d.m.Y', strtotime($item['date'])) }}</li>
                                                     </ul>
                                                 </div>
-                                                <h6 class="title"><a href="{{  route('news.detail', $item['slug'])  }}">{{ $item['title'] }}</a></h6>
+                                                <h6 class="title"><a href="{{  route('news.detail', [$item['id'], $item['slug']])  }}">{{ $item['title'] }}</a></h6>
                                             </div>
                                         </div>
                                     </div>
@@ -146,7 +148,7 @@
                                 <div class="single-post-list-wrap">
                                     <div class="media">
                                         <div class="media-left">
-                                            <img src="{{ asset($item['photo']) }}" alt="img">
+                                            <img src="{{ asset($item['photo']) }}" alt="img"  style="width:100px;">
                                         </div>
                                         <div class="media-body">
                                             <div class="details">
@@ -155,7 +157,7 @@
                                                         <li><i class="fa fa-clock-o"></i>{{ date('d.m.Y', strtotime($item['date'])) }}</li>
                                                     </ul>
                                                 </div>
-                                                <h6 class="title"><a href="{{  route('news.detail', $item['slug'])  }}">{{ $item['title'] }}</a></h6>
+                                                <h6 class="title"><a href="{{  route('news.detail', [$item['id'], $item['slug']])  }}">{{ $item['title'] }}</a></h6>
                                             </div>
                                         </div>
                                     </div>
@@ -166,52 +168,32 @@
                 </div>
                 <div class="col-lg-3 col-md-6">
                     <div class="section-title">
-                        <h6 class="title">What’s new</h6>
+                        <h6 class="title">সুনামগঞ্জ সংবাদ</h6>
                     </div>
                     <div class="post-slider owl-carousel">
+                        @foreach($sunamNews as $sunam)
                         <div class="item">
                             <div class="single-post-wrap">
                                 <div class="thumb">
-                                    <img src="{{ asset('public/frontend/img/post/8.png') }}" alt="img">
+                                    <img src="{{ asset($sunam->photo) }}" alt="img">
                                 </div>
                                 <div class="details">
                                     <div class="post-meta-single mb-4 pt-1">
                                         <ul>
-                                            <li><a class="tag-base tag-blue" href="cat-tech.html">Tech</a></li>
-                                            <li><i class="fa fa-clock-o"></i>08.22.2020</li>
+                                            <li><i class="fa fa-clock-o"></i>{{ date('d.m.Y', strtotime($sunam->date)) }}</li>
                                         </ul>
                                     </div>
-                                    <h6 class="title"><a href="blog-details.html">Uttarakhand’s Hemkund Sahib yatra to
-                                            start from September 4</a></h6>
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipi sicing elit, sed do eiusmod tempor
-                                        incididunt ut labore et dolore magna aliqua. </p>
+                                    <h6 class="title"><a href="{{  route('news.detail', [$sunam->id, $sunam->slug])  }}">{{$sunam->title}}</a></h6>
+                                    <p>{{ Str::limit(strip_tags($sunam->content), 200) }}</p>
                                 </div>
                             </div>
                         </div>
-                        <div class="item">
-                            <div class="single-post-wrap">
-                                <div class="thumb">
-                                    <img src="{{ asset('public/frontend/img/post/8.png') }}" alt="img">
-                                </div>
-                                <div class="details">
-                                    <div class="post-meta-single mb-4 pt-1">
-                                        <ul>
-                                            <li><a class="tag-base tag-blue" href="cat-tech.html">Tech</a></li>
-                                            <li><i class="fa fa-clock-o"></i>08.22.2020</li>
-                                        </ul>
-                                    </div>
-                                    <h6 class="title"><a href="blog-details.html">Uttarakhand’s Hemkund Sahib yatra to
-                                            start from September 4</a></h6>
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipi sicing elit, sed do eiusmod tempor
-                                        incididunt ut labore et dolore magna aliqua. </p>
-                                </div>
-                            </div>
-                        </div>
+                        @endforeach
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-6">
                     <div class="section-title">
-                        <h6 class="title">Join With Us</h6>
+                        <h6 class="title">আমাদের সাথে যোগ দিন</h6>
                     </div>
                     <div class="social-area-list mb-4">
                         <ul>
@@ -251,11 +233,11 @@
                         <div class="col-lg-4 col-sm-12">
                             <div class="single-post-wrap">
                                 <div class="thumb">
-                                    <img src="{{ asset($bangladesh->photo) }}" alt="img" style="width: 265px; height:175px;">
+                                    <img src="{{ asset($bangladesh->photo) }}" alt="img" style="width: 100%; height:175px;">
                                     <p class="btn-date"><i class="fa fa-clock-o"></i>{{ date('d.m.Y', strtotime($bangladesh->date)) }}</p>
                                 </div>
                                 <div class="details">
-                                    <h6 class="title"><a href="{{  route('news.detail', $bangladesh->slug)  }}">{{ $bangladesh->title }}</a></h6>
+                                    <h6 class="title"><a href="{{  route('news.detail', [$bangladesh->id, $bangladesh->slug])  }}">{{ $bangladesh->title }}</a></h6>
                                 </div>
                             </div>
                         </div>
@@ -268,7 +250,7 @@
                 <div class="col-lg-3 col-sm-6">
                     <div class="trending-post style-box">
                         <div class="section-title">
-                            <h6 class="title">Trending News</h6>
+                            <h6 class="title">ট্রেন্ডিং নিউজ</h6>
                         </div>
                         <div class="post-slider owl-carousel">
                             @php
@@ -281,7 +263,7 @@
                                 <div class="single-post-list-wrap">
                                     <div class="media">
                                         <div class="media-left">
-                                            <img src="{{ asset($item['photo']) }}" alt="img">
+                                            <img src="{{ asset($item['photo']) }}" alt="img" style="width:100px;">
                                         </div>
                                         <div class="media-body">
                                             <div class="details">
@@ -290,7 +272,7 @@
                                                         <li><i class="fa fa-clock-o"></i>{{ date('d.m.Y', strtotime($item['date'])) }}</li>
                                                     </ul>
                                                 </div>
-                                                <h6 class="title"><a href="{{  route('news.detail', $item['slug'])  }}">{{ $item['title'] }}</a></h6>
+                                                <h6 class="title"><a href="{{  route('news.detail', [$item['id'], $item['slug']])  }}">{{ $item['title'] }}</a></h6>
                                             </div>
                                         </div>
                                     </div>
@@ -304,7 +286,7 @@
                                 <div class="single-post-list-wrap">
                                     <div class="media">
                                         <div class="media-left">
-                                            <img src="{{ asset($item['photo']) }}" alt="img">
+                                            <img src="{{ asset($item['photo']) }}" alt="img" style="width:100px;">
                                         </div>
                                         <div class="media-body">
                                             <div class="details">
@@ -313,7 +295,7 @@
                                                         <li><i class="fa fa-clock-o"></i>{{ date('d.m.Y', strtotime($item['date'])) }}</li>
                                                     </ul>
                                                 </div>
-                                                <h6 class="title"><a href="{{  route('news.detail', $item['slug'])  }}">{{ $item['title'] }}</a></h6>
+                                                <h6 class="title"><a href="{{  route('news.detail', [$item['id'], $item['slug']])  }}">{{ $item['title'] }}</a></h6>
                                             </div>
                                         </div>
                                     </div>
@@ -336,14 +318,14 @@
                 <div class="col-lg-3 col-sm-6">
                     <div class="single-post-wrap style-overlay">
                         <div class="thumb">
-                            <img src="{{ asset($item->photo) }}" alt="img" style="width: 265px; height:175px;">
-                            <a class="tag-base @if($loop->odd) {{ 'tag-blue' }} @else {{ 'tag-purple' }} @endif" href="{{ route('category.news', $item->category_slug) }}">{{ $item->category }}</a>
+                            <img src="{{ asset($item->photo) }}" alt="img" style="width: 100%; height:175px;">
+                            <a class="tag-base @if($loop->odd) {{ 'tag-blue' }} @else {{ 'tag-purple' }} @endif" href="{{ route('category.news', [$item->category_slug, $item->category_id]) }}">{{ $item->category }}</a>
                         </div>
                         <div class="details">
                             <div class="post-meta-single">
                                 <p><i class="fa fa-clock-o"></i>{{ date('d.m.Y', strtotime($item->date)) }}</p>
                             </div>
-                            <h6 class="title"><a href="{{  route('news.detail', $item->slug)  }}">{{ $item->title }}</a></h6>
+                            <h6 class="title"><a href="{{  route('news.detail',[$item->id , $item->slug])  }}">{{ $item->title }}</a></h6>
                         </div>
                     </div>
                 </div>
@@ -389,7 +371,7 @@
                                     <div class="single-post-list-wrap style-white text-left">
                                         <div class="media">
                                             <div class="media-left">
-                                                <img src="{{ asset($item->photo) }}" alt="img">
+                                                <img src="{{ asset($item->photo) }}" alt="img" style="width:170px; height: 92px;">
                                                 <div class="play-btn-small play-btn-gray"><i class="fa fa-play"></i>
                                                 </div>
                                             </div>
@@ -424,12 +406,12 @@
         </div>
     </div>
     @endif
-    <div class="tranding-area pd-top-75 pd-bottom-50">
+    <div class="tranding-area pd-top-75 pd-bottom-50" style="background:white">
         <div class="container">
             <div class="section-title">
                 <div class="row">
                     <div class="col-md-3 mb-2 mb-md-0">
-                        <h6 class="title">Trending News</h6>
+                        <h6 class="title">ট্রেন্ডিং নিউজ</h6>
                     </div>
                     <div class="col-md-9">
                         <div class="nxp-tab-inner nxp-tab-post text-md-right">
@@ -460,8 +442,8 @@
                         <div class="col-lg-3 col-sm-6">
                             <div class="single-post-wrap">
                                 <div class="thumb">
-                                    <img src="{{ asset($newsItem->photo) }}" alt="img" style="width: 265px; height:175px;">
-                                    <a class="tag-base @if($loop->odd) {{ 'tag-light-green' }} @else {{ 'tag-orange' }} @endif  " href="{{ route('category.news', $newsItem->category_slug) }}">{{ $newsItem->category }}</a>
+                                    <img src="{{ asset($newsItem->photo) }}" alt="img" style="width: 100%; height:175px;">
+                                    <a class="tag-base @if($loop->odd) {{ 'tag-light-green' }} @else {{ 'tag-orange' }} @endif  " href="{{ route('category.news', [$newsItem->category_slug, $newsItem->category_id]) }}">{{ $newsItem->category }}</a>
                                 </div>
                                 <div class="details">
                                     <div class="post-meta-single mb-3">
@@ -470,7 +452,7 @@
                                             <li><i class="fa fa-user"></i> {{ $newsItem->reporter }}</li>
                                         </ul>
                                     </div>
-                                    <h6><a href="{{ route('news.detail', $newsItem->slug) }}">{{ $newsItem->title }}
+                                    <h6><a href="{{ route('news.detail', [$newsItem->id, $newsItem->slug]) }}">{{ $newsItem->title }}
                                         </a></h6>
                                     <p>{!! Str::limit($newsItem->category, 150) !!}</p>
                                 </div>

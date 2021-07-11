@@ -7,14 +7,15 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'index']);
-Route::get('/news/{slug}/category', [NewsController::class, 'news'])->name('category.news');
-Route::get('/news/{slug}', [NewsController::class, 'detail'])->name('news.detail');
+Route::get('/news/{slug}/{id}', [NewsController::class, 'news'])->name('category.news');
+Route::get('/news-detail/{id}/{slug}', [NewsController::class, 'detail'])->name('news.detail');
 Route::get('/search', [NewsController::class, 'search'])->name('news.search');
+Route::get('/teams', [NewsController::class, 'teams'])->name('teams');
 
 
 
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
 
 Route::group(['middleware' => ['auth']], function () {
 

@@ -30,7 +30,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         Paginator::useBootstrap();
-        $categories = Category::orderBy('position', 'asc')->where('menu', 1)->select('name', 'slug')->get();
+        $categories = Category::orderBy('position', 'asc')->where('menu', 1)->select('id', 'name', 'slug')->get();
         $contact    = Contact ::first();
         $about      = Page::where('slug', 'about')->first();
         $latest     = News::latest()->take(2)->get();

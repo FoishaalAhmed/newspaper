@@ -82,10 +82,10 @@ class News extends Model
         return $trendingNews;
     }
 
-    public function getNewsBySlug($slug)
+    public function getNewsBySlug($id)
     {
         $news = $this->join('categories', 'news.category_id', '=', 'categories.id')
-            ->where('news.slug', $slug)
+            ->where('news.id', $id)
             ->select('news.*', 'categories.name as category', 'categories.slug as category_slug')
             ->firstOrFail();
         return $news;
@@ -182,7 +182,7 @@ class News extends Model
     {
         $news  = $this::findOrFail($id);
         if (file_exists($news->photo)) unlink($news->photo);
-        $destroyNews = $news->save();
+        $destroyNews = $news->delete();
 
         $destroyNews
             ? session()->flash('message', 'News Deleted Successfully!')

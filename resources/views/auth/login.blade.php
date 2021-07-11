@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>News | Log in</title>
+    <title>Log in</title>
 
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -21,7 +21,7 @@
         <!-- /.login-logo -->
         <div class="card card-outline card-primary">
             <div class="card-header text-center">
-                <a href="" class="h1"><b>News</b></a>
+                <a href="" class="h1"><b>NewsTahirpur24</b></a>
             </div>
             <div class="card-body">
                 <p class="login-box-msg">Sign in to start your session</p>
@@ -61,9 +61,9 @@
                     </div>
                 </form>
 
-                <p class="mb-1">
-                    <a href="{{ route('password.request') }}">I forgot my password</a>
-                </p>
+                <!--<p class="mb-1">-->
+                <!--    <a href="{{ route('password.request') }}">I forgot my password</a>-->
+                <!--</p>-->
             </div>
             <!-- /.card-body -->
         </div>

@@ -47,14 +47,14 @@
                 <div class="col-lg-3 pd-top-50">
                     <div class="category-sitebar">
                         <div class="widget widget-category">
-                            <h6 class="widget-title">Category</h6>
+                            <h6 class="widget-title">সংবাদ বিভাগ</h6>
                             <div class="row custom-gutters-14">
                                 @foreach ($categories as $item)  
                                 
                                 <div class="col-lg-6 col-sm-6">
                                     <div class="single-category-inner">
                                         <img src="{{ asset('public/frontend/img/category/9.png') }}" alt="img">
-                                        <a class="tag-base tag-blue" href="{{ route('category.news', $item->slug) }}">{{ $item->name }}</a>
+                                        <a class="tag-base tag-blue" href="{{ route('category.news',[ $item->slug,  $item->id]) }}">{{ $item->name }}</a>
                                     </div>
                                 </div>
 
@@ -80,80 +80,46 @@
                             </ul>
                         </div>
                         <div class="widget">
-                            <h6 class="widget-title">Category</h6>
+                            <h6 class="widget-title">সংবাদ বিভাগ</h6>
                             <div class="post-slider owl-carousel">
+                                 @php
+                                    $firstThree = array_slice($sunamNews, 0, 5);
+                                    $lastThree = array_slice($sunamNews, 5);
+                                @endphp
                                 <div class="item">
                                     <div class="trending-post">
-                                        <div class="single-post-wrap style-overlay">
+                                        @foreach($firstThree as $key => $first)
+                                        <div class="single-post-wrap style-overlay @if($first == 2) {{'mb-0'}} @endif">
                                             <div class="thumb">
-                                                <img src="{{ asset('public/frontend/img/post/5.png') }}" alt="img">
+                                                <img src="{{ asset($first['photo']) }}" alt="img" style="width:370px; height:150px;">
                                             </div>
                                             <div class="details">
                                                 <div class="post-meta-single">
-                                                    <p><i class="fa fa-clock-o"></i>December 26, 2018</p>
+                                                    <p><i class="fa fa-clock-o"></i>{{ date('d.m.Y', strtotime($first['date'])) }}</p>
                                                 </div>
-                                                <h6 class="title"><a href="#">The FAA will test drone </a></h6>
+                                                <h6 class="title"><a href="{{  route('news.detail', [$first['id'], $first['slug']])  }}">{{ $first['title'] }}
+                                                    </a></h6>
                                             </div>
                                         </div>
-                                        <div class="single-post-wrap style-overlay">
-                                            <div class="thumb">
-                                                <img src="{{ asset('public/frontend/img/post/6.png') }}" alt="img">
-                                            </div>
-                                            <div class="details">
-                                                <div class="post-meta-single">
-                                                    <p><i class="fa fa-clock-o"></i>December 26, 2018</p>
-                                                </div>
-                                                <h6 class="title"><a href="#">Flight schedule and quarantine</a></h6>
-                                            </div>
-                                        </div>
-                                        <div class="single-post-wrap style-overlay mb-0">
-                                            <div class="thumb">
-                                                <img src="{{ asset('public/frontend/img/post/7.png') }}" alt="img">
-                                            </div>
-                                            <div class="details">
-                                                <div class="post-meta-single">
-                                                    <p><i class="fa fa-clock-o"></i>December 26, 2018</p>
-                                                </div>
-                                                <h6 class="title"><a href="#">Indore bags cleanest city</a></h6>
-                                            </div>
-                                        </div>
+                                        @endforeach
                                     </div>
                                 </div>
                                 <div class="item">
                                     <div class="trending-post">
-                                        <div class="single-post-wrap style-overlay">
+                                       @foreach($lastThree as $key => $last)
+                                        <div class="single-post-wrap style-overlay @if($last == 2) {{'mb-0'}} @endif">
                                             <div class="thumb">
-                                                <img src="{{ asset('public/frontend/img/post/5.png') }}" alt="img">
+                                                <img src="{{ asset($last['photo']) }}" alt="img" style="width:370px; height:150px;">
                                             </div>
                                             <div class="details">
                                                 <div class="post-meta-single">
-                                                    <p><i class="fa fa-clock-o"></i>December 26, 2018</p>
+                                                    <p><i class="fa fa-clock-o"></i>{{ date('d.m.Y', strtotime($last['date'])) }}</p>
                                                 </div>
-                                                <h6 class="title"><a href="#">The FAA will test drone </a></h6>
+                                                <h6 class="title"><a href="{{  route('news.detail', [$last['id'], $last['slug']])  }}">{{ $last['title'] }}
+                                                    </a></h6>
                                             </div>
                                         </div>
-                                        <div class="single-post-wrap style-overlay">
-                                            <div class="thumb">
-                                                <img src="{{ asset('public/frontend/img/post/6.png') }}" alt="img">
-                                            </div>
-                                            <div class="details">
-                                                <div class="post-meta-single">
-                                                    <p><i class="fa fa-clock-o"></i>December 26, 2018</p>
-                                                </div>
-                                                <h6 class="title"><a href="#">Flight schedule and quarantine</a></h6>
-                                            </div>
-                                        </div>
-                                        <div class="single-post-wrap style-overlay mb-0">
-                                            <div class="thumb">
-                                                <img src="{{ asset('public/frontend/img/post/7.png') }}" alt="img">
-                                            </div>
-                                            <div class="details">
-                                                <div class="post-meta-single">
-                                                    <p><i class="fa fa-clock-o"></i>December 26, 2018</p>
-                                                </div>
-                                                <h6 class="title"><a href="#">Indore bags cleanest city</a></h6>
-                                            </div>
-                                        </div>
+                                        @endforeach
                                     </div>
                                 </div>
                             </div>
@@ -164,13 +130,13 @@
                                     <li class="nav-item" role="presentation">
                                         <a class="nav-link active" id="nx1-tab-1" data-toggle="pill" href="#nx1-tabs-1"
                                             role="tab" aria-selected="true">
-                                            Recent
+                                            সাম্প্রতিক
                                         </a>
                                     </li>
                                     <li class="nav-item" role="presentation">
                                         <a class="nav-link" id="nx1-tab-2" data-toggle="pill" href="#nx1-tabs-2"
                                             role="tab" aria-selected="false">
-                                            Populer
+                                            জনপ্রিয়
                                         </a>
                                     </li>
                                 </ul>
@@ -183,7 +149,7 @@
                                     <div class="single-post-list-wrap">
                                         <div class="media">
                                             <div class="media-left">
-                                                <img src="{{ asset($item->photo) }}" alt="img">
+                                                <img src="{{ asset($item->photo) }}" alt="img" style="width:100px;">
                                             </div>
                                             <div class="media-body">
                                                 <div class="details">
@@ -192,7 +158,7 @@
                                                             <li><i class="fa fa-clock-o"></i>{{ date('d.m.Y', strtotime($item->date)) }} </li>
                                                         </ul>
                                                     </div>
-                                                    <h6 class="title"><a href="{{  route('news.detail', $item->slug)  }}">{{ $item->title }} </a></h6>
+                                                    <h6 class="title"><a href="{{  route('news.detail', [$item->id, $item->slug])  }}">{{ $item->title }} </a></h6>
                                                 </div>
                                             </div>
                                         </div>
@@ -206,7 +172,7 @@
                                     <div class="single-post-list-wrap">
                                         <div class="media">
                                             <div class="media-left">
-                                                <img src="{{ asset($item->photo) }}" alt="img">
+                                                <img src="{{ asset($item->photo) }}" alt="img" style="width:100px;">
                                             </div>
                                             <div class="media-body">
                                                 <div class="details">
@@ -215,7 +181,7 @@
                                                             <li><i class="fa fa-clock-o"></i>{{ date('d.m.Y', strtotime($item->date)) }} </li>
                                                         </ul>
                                                     </div>
-                                                    <h6 class="title"><a href="{{  route('news.detail', $item->slug)  }}">{{ $item->title }} </a></h6>
+                                                    <h6 class="title"><a href="{{  route('news.detail', [$item->id, $item->slug])  }}">{{ $item->title }} </a></h6>
                                                 </div>
                                             </div>
                                         </div>
